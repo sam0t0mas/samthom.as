@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SYSADMIN HOMELAB - VCF 9.X & HARDWARE DELIVERY LOG</title>
+    <style>
+        /* Classic Win95 / NT4 Setup */
+        :root {
+            --win-bg: #008080; /* Classic Teal */
+            --face: #d4d0c8;
+            --shadow: #808080;
+            --dark-shadow: #404040;
+            --light: #ffffff;
+            --title-blue: #000080;
+            --title-text: #ffffff;
+        }
+
+        body {
+            background-color: var(--win-bg);
+            font-family: "MS Sans Serif", "Tahoma", Arial, sans-serif;
+            font-size: 12px;
+            color: #000000;
+            margin: 20px;
+            padding: 0;
+        }
+
+        /* The Window Component */
+        .window {
+            background-color: var(--face);
+            border-top: 2px solid var(--light);
+            border-left: 2px solid var(--light);
+            border-right: 2px solid var(--shadow);
+            border-bottom: 2px solid var(--shadow);
+            box-shadow: 1px 1px 0px var(--dark-shadow);
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            padding: 2px;
+        }
+
+        .title-bar {
+            background: linear-gradient(90deg, var(--title-blue), #1084d0);
+            color: var(--title-text);
+            padding: 3px 5px 4px 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .title-bar-text {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .title-bar-controls button {
+            background-color: var(--face);
+            border-top: 1px solid var(--light);
+            border-left: 1px solid var(--light);
+            border-right: 1px solid var(--shadow);
+            border-bottom: 1px solid var(--shadow);
+            font-size: 9px;
+            font-weight: bold;
+            width: 16px;
+            height: 14px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        /* Menu Bar */
+        .menu-bar {
+            display: flex;
+            gap: 10px;
+            padding: 4px 6px;
+            border-bottom: 1px solid var(--shadow);
+        }
+
+        .menu-item {
+            text-decoration: none;
+            color: #000;
+        }
+        .menu-item span {
+            text-decoration: underline;
+        }
+
+        /* Content Area */
+        .window-body {
+            padding: 15px;
+            background-color: var(--face);
+        }
+
+        .fieldset {
+            border-top: 2px solid var(--shadow);
+            border-left: 2px solid var(--shadow);
+            border-right: 2px solid var(--light);
+            border-bottom: 2px solid var(--light);
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .fieldset-title {
+            position: absolute;
+            top: -8px;
+            left: 10px;
+            background-color: var(--face);
+            padding: 0 5px;
+            font-weight: bold;
+        }
+
+        /* Content Text Styles */
+        h1 {
+            font-size: 16px;
+            margin: 0 0 10px 0;
+        }
+
+        p {
+            line-height: 1.4;
+            margin: 0 0 10px 0;
+        }
+
+        .status-box {
+            background-color: #ffffff;
+            border-top: 2px solid var(--shadow);
+            border-left: 2px solid var(--shadow);
+            border-right: 2px solid var(--light);
+            border-bottom: 2px solid var(--light);
+            padding: 10px;
+            font-family: "Courier New", Courier, monospace;
+            overflow-y: auto;
+            max-height: 150px;
+            background: #fff;
+        }
+
+        /* Image Display Matrix */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .gallery-card {
+            background: var(--face);
+            border-top: 1px solid var(--light);
+            border-left: 1px solid var(--light);
+            border-right: 1px solid var(--shadow);
+            border-bottom: 1px solid var(--shadow);
+            padding: 6px;
+            text-align: center;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 160px;
+            background-color: #000;
+            border: 2px inset var(--shadow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #afafaf;
+            font-size: 11px;
+            overflow: hidden;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .img-link {
+            display: block;
+            margin-top: 6px;
+            color: #0000ee;
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 11px;
+        }
+
+        /* Buttons */
+        .win-btn {
+            background-color: var(--face);
+            border-top: 2px solid var(--light);
+            border-left: 2px solid var(--light);
+            border-right: 2px solid var(--shadow);
+            border-bottom: 2px solid var(--shadow);
+            padding: 4px 12px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .win-btn:active {
+            border-top: 2px solid var(--shadow);
+            border-left: 2px solid var(--shadow);
+            border-right: 2px solid var(--light);
+            border-bottom: 2px solid var(--light);
+        }
+
+        /* StatusBar */
+        .status-bar {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .status-pane {
+            background: var(--face);
+            border-top: 2px solid var(--shadow);
+            border-left: 2px solid var(--shadow);
+            border-right: 2px solid var(--light);
+            border-bottom: 2px solid var(--light);
+            padding: 2px 6px;
+            font-size: 11px;
+        }
+        .flex-grow { flex-grow: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                    <rect x="2" y="2" width="12" height="12" fill="#c0c0c0" stroke="#000" stroke-width="2"/>
+                    <rect x="4" y="4" width="8" height="3" fill="#000080"/>
+                </svg>
+                Lab_Deployment_Journal.exe
+            </div>
+            <div class="title-bar-controls">
+                <button type="button" aria-label="Minimize">0</button>
+                <button type="button" aria-label="Maximize">1</button>
+                <button type="button" aria-label="Close" onclick="alert('System shutdown blocked by active deployment processes.')">r</button>
+            </div>
+        </div>
+
+        <div class="menu-bar">
+            <a href="#" class="menu-item"><span>F</span>ile</a>
+            <a href="#" class="menu-item"><span>E</span>dit</a>
+            <a href="#" class="menu-item"><span>V</span>iew</a>
+            <a href="#" class="menu-item"><span>L</span>inks</a>
+            <a href="#" class="menu-item"><span>H</span>elp</a>
+        </div>
+
+        <div class="window-body">
+            
+            <h1>Homelab Upgrade Project: VCF 9.x Realization</h1>
+            <p><strong>Log Date:</strong> July 2026</p>
+            <p>Project documentation outlining the delivery logistics tracking from Amazon, hardware unboxing, and execution initialization of VMware Cloud Foundation 9.x (VCF 9.x) within the decentralized mini-PC cluster infrastructure.</p>
+            
+            <div class="fieldset">
+                <span class="fieldset-title">Phase 1: Hardware Logistics & Arrival</span>
+                <p>Delivery manifested via Amazon Premium Fulfillment. The parcel consists of mission-critical compute elements, low-latency interconnect storage upgrades, and high-density node components necessary to build the unified Management and Workload domains required by the VCF 9 architectural framework.</p>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <div class="image-placeholder">
+                            <img src="https://samthom.as/img/amazon_arrival.jpg" alt="Amazon Box Arriving" onerror="this.parentElement.innerHTML='[ Image: amazon_arrival.jpg ]';">
+                        </div>
+                        <a href="https://github.com/sam0t0mas/samthom.as/tree/main/img" target="_blank" class="img-link">amazon_arrival.jpg</a>
+                    </div>
+                    <div class="gallery-card">
+                        <div class="image-placeholder">
+                            <img src="https://samthom.as/img/hardware_unboxed.jpg" alt="Hardware Unboxing" onerror="this.parentElement.innerHTML='[ Image: hardware_unboxed.jpg ]';">
+                        </div>
+                        <a href="https://samthom.as/img/" target="_blank" class="img-link">hardware_unboxed.jpg</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fieldset">
+                <span class="fieldset-title">Phase 2: PC Cluster / VCF 9.x Initialization</span>
+                <p>Moving away from legacy VCF 5.x standalone architecture, this setup tests the unified single-installer deployment model of VCF 9. Core elements deployed include vSphere for bare-metal compute virtualization, vSAN hyperconverged storage tiering over fast NVMe pools, and embedded VCF Operations/Automation layers control frameworks.</p>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <div class="image-placeholder">
+                            <img src="https://samthom.as/img/pc_cluster_nodes.jpg" alt="PC Cluster Nodes Stack" onerror="this.parentElement.innerHTML='[ Image: pc_cluster_nodes.jpg ]';">
+                        </div>
+                        <a href="https://samthom.as/img/" target="_blank" class="img-link">pc_cluster_nodes.jpg</a>
+                    </div>
+                    <div class="gallery-card">
+                        <div class="image-placeholder">
+                            <img src="https://samthom.as/img/vcf9_deployment.jpg" alt="VCF 9.x Deployment Screen" onerror="this.parentElement.innerHTML='[ Image: vcf9_deployment.jpg ]';">
+                        </div>
+                        <a href="https://github.com/sam0t0mas/samthom.as/tree/main/img" target="_blank" class="img-link">vcf9_deployment.jpg</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fieldset">
+                <span class="fieldset-title">System Deployment Output Log</span>
+                <div class="status-box">
+                    [INFO] Initializing VCF 9.x Deployment Flow...<br>
+                    [INFO] Scanning local PC bare-metal nodes... 4 nodes detected.<br>
+                    [OK] NVMe Dynamic Storage Pools Verified via vSAN.<br>
+                    [INFO] Injecting VCF Operations Fleet Console Framework...<br>
+                    [OK] Integrated SecOps & Identity Federation active.<br>
+                    [STATUS] Provisioning Management Domain... 84% Complete.
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 15px;">
+                <button type="button" class="win-btn" onclick="alert('Refreshing network maps and inventory lists...')">Refresh Stack</button>
+                <button type="button" class="win-btn" style="font-weight: bold;" onclick="window.open('https://github.com/sam0t0mas/samthom.as/tree/main/img', '_blank')">Browse Repository</button>
+            </div>
+
+        </div>
+
+        <div class="status-bar">
+            <div class="status-pane flex-grow">Object(s) selected: 4 Images Manifested</div>
+            <div class="status-pane">Zone: Local Intranet</div>
+            <div class="status-pane">VCF: 9.1.0</div>
+        </div>
+    </div>
+
+</body>
+</html>
