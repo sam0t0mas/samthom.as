@@ -1,0 +1,123 @@
+You can save the following code as an `.html` file (e.g., `lab-bom.html`) and open it in any web browser to view your lab build-out in the requested Windows NT 4.0/95 desktop theme.
+
+``` html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VCF 9.2 Lab Build - BOM Properties</title>
+    <style>
+        body {
+            background-color: #008080;
+            font-family: 'MS Sans Serif', 'Arial', sans-serif;
+            padding: 20px;
+        }
+
+        .window {
+            background-color: #c0c0c0;
+            border: 2px outset #ffffff;
+            width: 700px;
+            margin: 0 auto;
+            padding: 2px;
+        }
+
+        .title-bar {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background-color: #c0c0c0;
+            border: 2px outset #ffffff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+
+        .content {
+            padding: 10px;
+            border: 2px inset #ffffff;
+            background-color: #c0c0c0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+            border: 2px inset #000000;
+        }
+
+        th {
+            background-color: #e0e0e0;
+            text-align: left;
+            padding: 5px;
+            border-bottom: 1px solid #808080;
+        }
+
+        td {
+            padding: 5px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        h3 {
+            margin: 10px 0 5px 0;
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="window">
+    <div class="title-bar">
+        <span>VCF 9.2 Build Specification - System Properties</span>
+        <div class="close-btn">X</div>
+    </div>
+    
+    <div class="content">
+        <h3>Current Lab Specification (3-Node)</h3>
+        <table>
+            <tr><th>Component</th><th>Specification</th></tr>
+            <tr><td>Nodes</td><td>3x Minisforum MS-02 Ultra 5</td></tr>
+            <tr><td>RAM</td><td>128GB DDR5 Crucial 5600MT SODIMMs (per node)</td></tr>
+            <tr><td>Boot Disk</td><td>128GB Gen4 NVMe</td></tr>
+            <tr><td>vSAN Storage</td><td>1TB Gen5 NVMe</td></tr>
+            <tr><td>Networking</td><td>MikroTik CRS304 10GBASET (10GbE/25GbE)</td></tr>
+        </table>
+
+        <h3>Lab Theseus (Legacy/AI)</h3>
+        <table>
+            <tr><th>Component</th><th>Specification</th></tr>
+            <tr><td>System</td><td>HPE Z240 (6th Gen i7 6xxx)</td></tr>
+            <tr><td>Storage</td><td>512GB NVMe / 1TB SSD / 4TB WD Green HDD</td></tr>
+            <tr><td>AI Inference</td><td>4x GTX 5060 8GB Low Profile Cards</td></tr>
+        </table>
+
+        <h3>Planned Iterations (Phase 2)</h3>
+        <ul>
+            <li>Add 1x MS-02 Ultra 5 or Ultra 9 (Cluster: 4x Node VCF cluster with NSX edge)</li>
+            <li>Memory Tiering: 4x 256GB NVMe Gen4 for Memory Tiering & Dual Booting</li>
+            <li>Switching Upgrade: Consider MikroTik CRS504 4xQ or CRS804 DDQ (100GbE/400GbE)</li>
+        </ul>
+
+        <div class="footer">
+            <button>OK</button> <button>Cancel</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+```
