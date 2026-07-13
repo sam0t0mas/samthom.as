@@ -83,7 +83,7 @@
     </div>
     
     <div class="content">
-        <h3>Current Lab Specification (3-Node)</h3>
+        <h3>Current VCF/AI Lab Specification (3-Node)</h3>
         <table>
             <tr><th>Component</th><th>Specification</th></tr>
             <tr><td>Nodes</td><td>3x Minisforum MS-02 Ultra 5</td></tr>
@@ -93,7 +93,7 @@
             <tr><td>Networking</td><td>MikroTik CRS304 10GBASET (10GbE/25GbE)</td></tr>
         </table>
 
-        <h3>Lab Theseus (Legacy/AI)</h3>
+        <h3>Legacy Lab (Theseus Parts)</h3>
         <table>
             <tr><th>Component</th><th>Specification</th></tr>
             <tr><td>System</td><td>HPE Z240 (6th Gen i7 6xxx)</td></tr>
@@ -104,8 +104,12 @@
         <h3>Planned Iterations (Phase 2)</h3>
         <ul>
             <li>Add 1x MS-02 Ultra 5 or Ultra 9 (Cluster: 4x Node VCF cluster with NSX edge)</li>
+            <li>Add 3x - 4x RTX5060 8GiB LP (AI/ML: Cluster)</li>
             <li>Memory Tiering: 4x 256GB NVMe Gen4 for Memory Tiering & Dual Booting</li>
-            <li>Switching Upgrade: Consider MikroTik CRS504 4xQ or CRS804 DDQ (100GbE/400GbE)</li>
+            <li>Switching Upgrade Option: 100GbE Consider MikroTik CRS504 4xQ 4x 100GbE SFP28</li>
+            <li> 100x4/25G = 16 Lanes of 25GbE - Cluster Capacity tops out at 16 nodes</li>
+            <li>Switching Upgrade Option 400GbE: Consider MikroTik CRS804 DDQ 4x 400GbE SFP56-DD (400GbE)</li>
+            <li> 400x4/25G = 64 Lanes of 25GbE - Cluster Capacity tops out  at 64 nodes </li>
         </ul>
 
         <div class="footer">
