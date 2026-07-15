@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Gear Datacentre - MikroTik CRS804 DDQ Review</title>
+
+<style>
+:root{
+    --orange:#ff6a00;
+    --black:#0b0b0b;
+    --dark:#161616;
+    --grey:#999;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0b0b0b;
+    color:#f5f5f5;
+    font-family:Segoe UI,Arial,sans-serif;
+    line-height:1.7;
+}
+
+.hero{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at center,#2a2a2a 0%,#111 60%,#000 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px;
+}
+
+.hero h1{
+    font-size:6rem;
+    line-height:.9;
+    margin-bottom:20px;
+}
+
+.hero .tag{
+    color:var(--orange);
+    font-weight:bold;
+    letter-spacing:5px;
+    margin-bottom:20px;
+    text-transform:uppercase;
+}
+
+.hero p{
+    max-width:900px;
+    margin:auto;
+    color:#ccc;
+    font-size:1.4rem;
+}
+
+.section{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 40px;
+}
+
+h2{
+    color:var(--orange);
+    font-size:3rem;
+    margin-bottom:25px;
+}
+
+.lead{
+    font-size:1.5rem;
+    margin-bottom:30px;
+}
+
+.quote{
+    margin:50px 0;
+    padding:40px;
+    background:#181818;
+    border-left:8px solid var(--orange);
+    font-size:2rem;
+    font-style:italic;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#181818;
+    padding:30px;
+    border-top:4px solid var(--orange);
+}
+
+.card h3{
+    margin-bottom:15px;
+    color:var(--orange);
+}
+
+.specs{
+    background:#121212;
+    padding:70px 40px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #333;
+}
+
+td:first-child{
+    width:35%;
+    color:var(--orange);
+    font-weight:bold;
+}
+
+.verdict{
+    background:var(--orange);
+    color:#000;
+    padding:80px 40px;
+}
+
+.verdict h2{
+    color:#000;
+}
+
+.rating{
+    font-size:3rem;
+    margin:20px 0;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    color:#888;
+}
+</style>
+
+</head>
+
+<body>
+
+<section class="hero">
+<div>
+<div class="tag">TOP GEAR DATACENTRE EDITION</div>
+
+<h1>MIKROTIK<br>CRS804 DDQ</h1>
+
+<p>
+Four 400 Gigabit ports.
+One rack unit.
+Enough switching bandwidth to move an entire SAN before
+you've finished saying "Have you tried turning it off and on again?"
+</p>
+</div>
+</section>
+
+<section class="section">
+
+<h2>Some Numbers To Frighten Accountants</h2>
+
+<p class="lead">
+There was a time when a 1 Gigabit switch was considered fast.
+Then came 10 Gigabit.
+Then 100 Gigabit.
+Now MikroTik has looked at all that and said:
+"No. More."
+</p>
+
+<p>
+The CRS804 DDQ packs four QSFP56-DD ports capable of
+400 Gigabit Ethernet each. That's a potential 1.6 Terabits
+of switching bandwidth sitting quietly in a compact 1U chassis.
+Not a chassis the size of a fridge.
+Not a chassis requiring its own postcode.
+A single rack unit.
+</p>
+
+<div class="quote">
+"Network engineers will look at this and immediately begin
+inventing workloads for it."
+</div>
+
+</section>
+
+
+<section class="section">
+
+<h2>What Is It?</h2>
+
+<p>
+The CRS804 DDQ is MikroTik's answer to the question nobody
+outside a datacentre would ever ask:
+"What if my server farm could inhale bandwidth?"
+</p>
+
+<p>
+Designed for AI clusters, storage networks, aggregation layers,
+and modern high-performance fabrics, the CRS804 DDQ combines
+a Marvell switching ASIC, RouterOS v7, a quad-core 2GHz ARM CPU,
+4GB of RAM, hot-swap cooling and redundant power supplies into
+a package that looks almost suspiciously affordable.
+</p>
+
+<div class="grid">
+
+<div class="card">
+<h3>400G Ports</h3>
+<p>
+4 × QSFP56-DD ports capable of 400G operation.
+Because apparently 100 Gigabit is now considered quaint.
+</p>
+</div>
+
+<div class="card">
+<h3>Flexible Breakouts</h3>
+<p>
+Breakouts to 200G, 100G, 50G and lower speeds allow it
+to talk to practically everything in your rack.
+</p>
+</div>
+
+<div class="card">
+<h3>Redundancy</h3>
+<p>
+Dual hot-swap power supplies mean your switch survives
+when somebody inevitably kicks the wrong cable.
+</p>
+</div>
+
+<div class="card">
+<h3>RouterOS</h3>
+<p>
+MikroTik's RouterOS provides a management environment
+that infrastructure people already know and secretly enjoy.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<h2>How Fast Is It?</h2>
+
+<p>
+Imagine driving a reasonably quick family hatchback.
+Now imagine replacing it with a spacecraft.
+That's roughly the scaling factor involved here.
+</p>
+
+<p>
+A single port can deliver 400 Gigabits per second.
+Four ports can deliver 1.6 Terabits.
+The practical result is that storage arrays,
+GPU clusters and compute nodes stop complaining about
+the network and start blaming each other instead.
+</p>
+
+<div class="quote">
+"At these speeds, the packets aren't travelling.
+They're teleporting."
+</div>
+
+<p>
+This is precisely the sort of switch that finds itself
+in AI environments where GPUs cost more than houses,
+or storage fabrics where waiting two extra milliseconds
+could trigger a small riot.
+</p>
+
+</section>
+
+
+<section class="specs">
+
+<h2>Geek Corner</h2>
+
+<table>
+
+<tr>
+<td>Switch Type</td>
+<td>1U Managed 400G Switch</td>
+</tr>
+
+<tr>
+<td>Main Ports</td>
+<td>4 × 400G QSFP56-DD</td>
+</tr>
+
+<tr>
+<td>Ethernet</td>
+<td>2 × 1/10GbE RJ45</td>
+</tr>
+
+<tr>
+<td>CPU</td>
+<td>Quad-Core ARM 2GHz</td>
+</tr>
+
+<tr>
+<td>Memory</td>
+<td>4GB DDR4 RAM</td>
+</tr>
+
+<tr>
+<td>OS</td>
+<td>RouterOS v7</td>
+</tr>
+
+<tr>
+<td>Power</td>
+<td>Dual Hot-Swap PSU</td>
+</tr>
+
+<tr>
+<td>Cooling</td>
+<td>Dual Hot-Swap Fans</td>
+</tr>
+
+<tr>
+<td>Target Workloads</td>
+<td>AI Clusters, Storage Fabrics, High-Speed Aggregation</td>
+</tr>
+
+</table>
+
+</section>
+
+
+<section class="verdict">
+
+<h2>The Verdict</h2>
+
+<div class="rating">★★★★★</div>
+
+<p style="font-size:1.4rem;">
+The wonderful thing about the CRS804 DDQ is that it
+doesn't pretend to be anything else.
+</p>
+
+<p style="font-size:1.4rem;margin-top:20px;">
+It isn't trying to power office phones.
+It isn't trying to run the entire enterprise from one box.
+It has one mission:
+move absurd amounts of data at wire speed.
+</p>
+
+<p style="font-size:1.4rem;margin-top:20px;">
+For AI labs, storage fabrics, hyper-scale test environments,
+or anybody planning a journey into the world of 400 Gigabit Ethernet,
+this is a gloriously overpowered gateway drug.
+</p>
+
+<p style="font-size:2rem;font-weight:bold;margin-top:40px;">
+Fast. Compact. Slightly ridiculous.
+Exactly what a Top Gear review likes to see.
+</p>
+
+</section>
+
+<footer>
+Top Gear Datacentre Edition • Review based on MikroTik CRS804 DDQ published specifications.
+</footer>
+
+</body>
+</html>
