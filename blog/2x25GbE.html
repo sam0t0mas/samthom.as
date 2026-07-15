@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Gear Review – Supermicro AOC-S25GC-i2S</title>
+
+<style>
+:root{
+    --tg-orange:#ff6b00;
+    --tg-dark:#111;
+    --tg-light:#f4f4f4;
+    --tg-grey:#777;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111;
+    color:#eee;
+    line-height:1.6;
+}
+
+.hero{
+    background:linear-gradient(135deg,#111,#222,#000);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:50px;
+}
+
+.hero-content{
+    max-width:1000px;
+}
+
+.tag{
+    color:var(--tg-orange);
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+h1{
+    font-size:5rem;
+    line-height:0.95;
+    margin-bottom:25px;
+}
+
+.subtitle{
+    font-size:1.4rem;
+    color:#bbb;
+    max-width:800px;
+    margin:auto;
+}
+
+.section{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 40px;
+}
+
+.section h2{
+    color:var(--tg-orange);
+    font-size:3rem;
+    margin-bottom:25px;
+}
+
+.lead{
+    font-size:1.4rem;
+    margin-bottom:30px;
+}
+
+.columns{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:40px;
+}
+
+.card{
+    background:#1b1b1b;
+    padding:30px;
+    border-left:5px solid var(--tg-orange);
+}
+
+.card h3{
+    margin-bottom:15px;
+}
+
+.quote{
+    background:#181818;
+    border-left:8px solid var(--tg-orange);
+    padding:40px;
+    margin:50px 0;
+    font-size:1.8rem;
+    font-style:italic;
+}
+
+.verdict{
+    background:var(--tg-orange);
+    color:black;
+    padding:80px 40px;
+}
+
+.verdict h2{
+    color:black;
+}
+
+.specs{
+    background:#191919;
+    padding:60px 40px;
+}
+
+.spec-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.spec-table td{
+    padding:15px;
+    border-bottom:1px solid #333;
+}
+
+.spec-table td:first-child{
+    color:var(--tg-orange);
+    font-weight:bold;
+    width:40%;
+}
+
+.footer{
+    text-align:center;
+    padding:50px;
+    color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="tag">TOP GEAR FOR DATACENTRES</div>
+
+        <h1>SUPERMICRO<br>AOC-S25GC-i2S</h1>
+
+        <p class="subtitle">
+            Two ports. Twenty-five gigabits per second each.
+            Enough network bandwidth to make your storage array
+            look nervous and your hypervisor grin like Clarkson
+            discovering someone else is paying for the tyres.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>What Is It?</h2>
+
+    <p class="lead">
+        Imagine a Ferrari engine. Now remove all the glamour,
+        replace the noise with photons travelling through fibre
+        optics and stick the whole thing into a 1U server.
+        That's basically what we have here.
+    </p>
+
+    <p>
+        The Supermicro AOC-S25GC-i2S is a dual-port 25Gb Ethernet
+        adapter built around Intel's E810-XXVAM2 controller.
+        It plugs into a PCIe 4.0 x8 slot and exists for one
+        purpose: moving alarming quantities of data whilst barely
+        breaking a sweat.
+    </p>
+
+    <div class="quote">
+        "If a normal gigabit NIC is a family hatchback,
+        this thing is a ballistic missile with an SNMP agent."
+    </div>
+</section>
+
+<section class="section">
+    <h2>The Numbers</h2>
+
+    <div class="columns">
+
+        <div class="card">
+            <h3>25 Gigabit Ethernet</h3>
+            <p>
+                Two SFP28 ports delivering enough throughput to
+                thoroughly embarrass old 10GbE infrastructure.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>PCIe 4.0</h3>
+            <p>
+                Modern, fast and backwards compatible.
+                Like a time traveller who still understands VHS.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>RDMA</h3>
+            <p>
+                Supports RoCEv2 and iWARP, reducing latency to
+                levels where packets hardly have time to become
+                emotionally attached to the wire.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Virtualisation Ready</h3>
+            <p>
+                SR-IOV, DPDK, VXLAN, NVGRE and Geneve support
+                mean it feels entirely at home among large fleets
+                of virtual machines and containers.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <h2>On The Road*</h2>
+
+    <p style="color:#999;margin-bottom:30px;">
+        *Road in this case meaning rack row.
+    </p>
+
+    <p>
+        Install this card in a database server, storage node,
+        Kubernetes worker or virtualisation host and something
+        remarkable happens:
+    </p>
+
+    <div class="quote">
+        The network stops being the bottleneck.
+    </div>
+
+    <p>
+        Suddenly the CPUs are busy. The SSDs are busy.
+        The storage fabric is busy.
+        Everything else is sweating.
+        The network card, meanwhile, is casually leaning against
+        a rack rail asking whether anyone has anything harder.
+    </p>
+
+    <p>
+        Intel's Application Device Queues (ADQ) and Dynamic Device
+        Personalisation (DDP) are aimed at squeezing latency out of
+        demanding applications, while hardware offloads ensure the
+        CPU spends more time doing useful work and less time acting
+        as a postal worker for packets.
+    </p>
+</section>
+
+<section class="specs">
+    <h2>Geek Corner</h2>
+
+    <table class="spec-table">
+
+        <tr>
+            <td>Controller</td>
+            <td>Intel E810-XXVAM2</td>
+        </tr>
+
+        <tr>
+            <td>Ports</td>
+            <td>2 x SFP28</td>
+        </tr>
+
+        <tr>
+            <td>Link Speed</td>
+            <td>25GbE per port</td>
+        </tr>
+
+        <tr>
+            <td>Interface</td>
+            <td>PCIe 4.0 x8</td>
+        </tr>
+
+        <tr>
+            <td>RDMA</td>
+            <td>RoCEv2 and iWARP</td>
+        </tr>
+
+        <tr>
+            <td>Virtualisation</td>
+            <td>SR-IOV, DPDK, Microsoft VM Queue, VMware NetQueue</td>
+        </tr>
+
+        <tr>
+            <td>Overlay Networks</td>
+            <td>VXLAN, NVGRE, Geneve</td>
+        </tr>
+
+        <tr>
+            <td>Management</td>
+            <td>NC-SI / IPMI Support</td>
+        </tr>
+
+    </table>
+</section>
+
+<section class="verdict">
+
+    <h2>The Verdict</h2>
+
+    <p style="font-size:1.6rem;margin-bottom:30px;">
+        Rating: ★★★★★
+    </p>
+
+    <p style="font-size:1.3rem;">
+        The AOC-S25GC-i2S isn't exciting in the way a V12 supercar
+        is exciting.
+    </p>
+
+    <p style="font-size:1.3rem;margin-top:20px;">
+        It's exciting in the way discovering your backup window has
+        shrunk from eight hours to forty minutes is exciting.
+    </p>
+
+    <p style="font-size:1.3rem;margin-top:20px;">
+        It is unapologetically aimed at serious infrastructure:
+        hypervisors, cloud platforms, storage fabrics, AI clusters
+        and data-centre operators who consider "a bit of bandwidth"
+        to mean something measured in tens of gigabits.
+    </p>
+
+    <p style="font-size:1.6rem;font-weight:bold;margin-top:40px;">
+        Fast. Capable. Slightly ridiculous.
+        Just how we like it.
+    </p>
+</section>
+
+<div class="footer">
+    Top Gear Magazine (Datacentre Edition)<br>
+    Review based on Supermicro AOC-S25GC-i2S product specifications.
+</div>
+
+</body>
+</html>
