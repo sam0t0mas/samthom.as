@@ -1,350 +1,683 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>samthom.as | Enterprise BBS Terminal</title>
-  <style>
-    :root {
-      --green: #33ff33;
-      --amber: #ffb000;
-      --cyan: #33ccff;
-      --bg: #050a05;
-      --panel-bg: rgba(0, 15, 0, 0.95);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>samthom.as | Enterprise BBS Terminal</title>
+
+<style>
+:root{
+    --green:#33ff33;
+    --amber:#ffb000;
+    --cyan:#33ccff;
+    --bg:#050a05;
+    --panel-bg:rgba(0,15,0,.95);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    color:var(--green);
+    font-family:
+        "Cascadia Mono",
+        "Consolas",
+        "Lucida Console",
+        monospace;
+    font-size:15px;
+    line-height:1.4;
+    overflow:hidden;
+    height:100vh;
+    width:100vw;
+}
+
+/* ==========================================================
+   SCREENS
+========================================================== */
+
+.screen{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    padding:2rem;
+
+    visibility:hidden;
+    opacity:0;
+    pointer-events:none;
+
+    transition:opacity .3s ease;
+}
+
+.screen.active{
+    visibility:visible;
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* ==========================================================
+   CRT
+========================================================== */
+
+.crt-text{
+    text-shadow:
+        0 0 3px currentColor,
+        0 0 8px currentColor,
+        0 0 15px rgba(51,255,51,.3);
+
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:geometricPrecision;
+}
+
+.amber{
+    color:var(--amber);
+}
+
+.cyan{
+    color:var(--cyan);
+}
+
+/* ==========================================================
+   CURSOR
+========================================================== */
+
+.cursor{
+    display:inline-block;
+    width:10px;
+    height:18px;
+    margin-left:4px;
+    background:var(--green);
+    vertical-align:middle;
+    animation:blink 1s step-end infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0;
     }
+}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ==========================================================
+   BOOT SCROLL
+========================================================== */
 
-    body {
-      background: var(--bg);
-      color: var(--green);
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 15px;
-      line-height: 1.4;
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-      cursor: default;
-    }
+.scroll-wrap{
+    position:relative;
+    width:80%;
+    max-width:700px;
+    height:60vh;
+    overflow:hidden;
+}
 
-    .screen {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-    }
-    .screen.active { display: flex; }
+.scroll-text{
+    position:absolute;
+    width:100%;
+    text-align:center;
 
-    /* CRT & Phosphor Effects */
-    .crt-text { text-shadow: 0 0 6px var(--green), 0 0 12px rgba(51,255,51,0.4); }
-    .amber { color: var(--amber); text-shadow: 0 0 6px var(--amber), 0 0 12px rgba(255,176,0,0.4); }
-    .cyan { color: var(--cyan); text-shadow: 0 0 6px var(--cyan), 0 0 12px rgba(51,204,255,0.3); }
+    white-space:pre-wrap;
 
-    /* Blinking Cursor */
-    .cursor {
-      display: inline-block; width: 10px; height: 18px;
-      background: var(--green); margin-left: 4px; vertical-align: middle;
-      animation: blink 1s step-end infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
+    opacity:0;
+    transform:translateY(120%);
 
-    /* Scroll Animation Container */
-    .scroll-wrap {
-      position: relative; width: 80%; max-width: 700px; height: 60vh;
-      overflow: hidden; display: flex; align-items: center; justify-content: center;
-    }
-    .scroll-text {
-      position: absolute; width: 100%; text-align: center; white-space: pre;
-      line-height: 1.6; opacity: 0; transform: translateY(120%);
-      transition: opacity 0.8s, transform 8s linear;
-    }
-    .scroll-text.show { opacity: 1; transform: translateY(-120%); }
+    transition:
+        opacity .8s ease,
+        transform 8s linear;
+}
 
-    /* BBS Terminal */
-    #bbs .terminal-frame {
-      width: 90%; max-width: 850px; height: 80vh;
-      border: 2px solid var(--green); background: var(--panel-bg);
-      padding: 1.5rem; display: flex; flex-direction: column; justify-content: center;
-    }
-    .terminal-content { overflow-y: auto; flex: 1; white-space: pre-wrap; word-break: break-word; }
-    .terminal-content::-webkit-scrollbar { width: 6px; }
-    .terminal-content::-webkit-scrollbar-track { background: #001100; }
-    .terminal-content::-webkit-scrollbar-thumb { background: var(--green); }
+.scroll-text.show{
+    opacity:1;
+    transform:translateY(-120%);
+}
 
-    /* Menu & Interactive Elements */
-    .menu-item { display: block; padding: 4px 8px; margin: 2px 0; cursor: pointer; transition: all 0.15s; }
-    .menu-item:hover, .menu-item.selected { background: rgba(51,255,51,0.15); color: #fff; text-shadow: 0 0 8px var(--green); }
-    .skip-hint { position: fixed; bottom: 10px; right: 15px; font-size: 11px; color: #555; opacity: 0; transition: opacity 2s; }
-    .skip-hint.visible { opacity: 1; }
+/* ==========================================================
+   BBS
+========================================================== */
 
-    h2, h3 { color: var(--amber); margin: 10px 0; text-shadow: 0 0 8px var(--amber); }
-    a { color: var(--cyan); text-decoration: underline; cursor: pointer; }
-    ul { padding-left: 20px; margin: 10px 0; }
-    li { margin-bottom: 6px; }
-    .divider { border-top: 1px dashed var(--green); margin: 15px 0; opacity: 0.5; }
-  </style>
+.terminal-frame{
+    width:90%;
+    max-width:900px;
+    height:80vh;
+
+    border:2px solid var(--green);
+    background:var(--panel-bg);
+
+    padding:1.5rem;
+    display:flex;
+    flex-direction:column;
+}
+
+.terminal-content{
+    flex:1;
+    overflow-y:auto;
+    white-space:pre-wrap;
+}
+
+.menu-item{
+    cursor:pointer;
+    padding:4px 8px;
+    margin:2px 0;
+    transition:.15s;
+}
+
+.menu-item:hover{
+    background:rgba(51,255,51,.15);
+    color:#fff;
+}
+
+.skip-hint{
+    position:fixed;
+    bottom:10px;
+    right:15px;
+
+    font-size:11px;
+    color:#666;
+
+    opacity:0;
+    transition:opacity 2s;
+}
+
+.skip-hint.visible{
+    opacity:1;
+}
+
+.divider{
+    border-top:1px dashed var(--green);
+    opacity:.4;
+    margin:15px 0;
+}
+
+h2{
+    color:var(--amber);
+    margin:10px 0;
+}
+
+ul{
+    padding-left:20px;
+}
+
+li{
+    margin-bottom:5px;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Phase 1: IBM Boot -->
-  <div id="boot" class="screen">
-    <div class="scroll-wrap"><pre class="scroll-text crt-text">IBM PC XT/PS/1 SYSTEM BIOS v3.10
+<!-- ==========================================================
+     BOOT
+========================================================== -->
+
+<div id="boot" class="screen active">
+    <div class="scroll-wrap">
+<pre class="scroll-text crt-text">
+IBM PC XT/PS/1 SYSTEM BIOS v3.10
 (C) IBM CORPORATION 1984, 1987
 
 MEMORY TEST: 640K OK
-DETECTING HARD DISKS... 01: WDC WD21000A (C:)
+DETECTING HARD DISKS...
+01: WDC WD21000A (C:)
+
 LOADING OPERATING SYSTEM...
-MS-DOS VERSION 5.0       </pre></div>
-  </div>
 
-  <!-- Phase 2: DOS Prompt -->
-  <div id="dos" class="screen">
-    <div class="crt-text">Microsoft(D) MS-DOS (C) Copyright 1981-1991 Microsoft Corp.</div><br>
-    <div class="crt-text">C:\> SYSTEM READY<span class="cursor"></span></div>
-  </div>
-
-  <!-- Phase 3: Modem Dialer Instructions -->
-  <div id="dialer" class="screen" style="text-align:center;">
-    <div id="dialer-text" class="crt-text" style="min-height: 20px;"></div><br>
-    <div id="dialer-status" class="amber">ESTABLISHING REMOTE LINK...<span class="cursor"></span></div>
-  </div>
-
-  <!-- Phase 4: Modem Connection -->
-  <div id="modem" class="screen">
-    <pre id="modem-log" class="amber crt-text"></pre>
-  </div>
-
-  <!-- Phase 5: BBS Terminal -->
-  <div id="bbs" class="screen">
-    <div class="terminal-frame crt-text">
-      <div id="bbs-content" class="terminal-content"></div>
+MS-DOS VERSION 5.0
+</pre>
     </div>
-  </div>
+</div>
 
-  <div id="skip-hint" class="skip-hint">PRESS ANY KEY TO SKIP INTRO SEQUENCE</div>
+<!-- ==========================================================
+     DOS
+========================================================== -->
 
-  <script>
-    // ── Sequence Controller ──
-    const seq = {
-      screens: ['boot', 'dos', 'dialer', 'modem', 'bbs'],
-      timers: [],
-      allowSkip: false,
+<div id="dos" class="screen">
+    <div class="crt-text">
+        Microsoft(R) MS-DOS
+    </div>
 
-      init() {
-        this.run('boot', 7000, () => {
-          clearTimeout(this.timers.pop());
-          this.run('dos', 3500, () => {
-            clearTimeout(this.timers.pop());
-            this.runDialer();
-          });
+    <br>
+
+    <div class="crt-text">
+        C:\> SYSTEM READY
+        <span class="cursor"></span>
+    </div>
+</div>
+
+<!-- ==========================================================
+     DIALER
+========================================================== -->
+
+<div id="dialer" class="screen">
+    <div id="dialer-text" class="crt-text"></div>
+
+    <br>
+
+    <div id="dialer-status" class="amber">
+        ESTABLISHING REMOTE LINK...
+        <span class="cursor"></span>
+    </div>
+</div>
+
+<!-- ==========================================================
+     MODEM
+========================================================== -->
+
+<div id="modem" class="screen">
+<pre id="modem-log" class="amber crt-text"></pre>
+</div>
+
+<!-- ==========================================================
+     BBS
+========================================================== -->
+
+<div id="bbs" class="screen">
+    <div class="terminal-frame crt-text">
+        <div id="bbs-content" class="terminal-content"></div>
+    </div>
+</div>
+
+<div id="skip-hint" class="skip-hint">
+    PRESS ANY KEY TO SKIP INTRO
+</div>
+
+<script>
+
+/* ==========================================================
+   SEQUENCE CONTROLLER
+========================================================== */
+
+const seq = {
+
+    screens:['boot','dos','dialer','modem','bbs'],
+    timers:[],
+    timerInterval:null,
+
+    init(){
+
+        this.run('boot',7000,()=>{
+
+            this.run('dos',3000,()=>{
+
+                this.runDialer();
+
+            });
+
         });
-      },
 
-      run(id, duration, callback) {
-        document.getElementById(id).classList.add('active');
-        const timer = setTimeout(callback, duration);
-        this.timers.push(timer);
-      },
+    },
 
-      showAll() {
-        // Hide all but current
-        this.screens.forEach(s => {
-          if (s !== 'bbs') document.getElementById(s).classList.remove('active');
-        });
-      },
+    clearAllTimers(){
 
-      skipTo(targetId) {
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        clearInterval(this.timerInterval);
-        clearTimeout(this.timerTimeout);
-        
-        if (targetId === 'dialer') this.runDialer();
-        else if (targetId === 'modem') this.runModemSequence();
-        else document.getElementById(targetId).classList.add('active');
-
-        if (targetId !== 'bbs') {
-          setTimeout(() => this.showAll(), 100);
-        } else {
-          bbs.init();
+        if(this.timerInterval){
+            clearInterval(this.timerInterval);
         }
-      },
 
-      runDialer() {
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        document.getElementById('dialer').classList.add('active');
-        
-        const textEl = document.getElementById('dialer-text');
-        const phrase = 'ENTER REMOTE NODE NUMBER: 3-2-6-1-6-6-7';
-        let i = 0;
-        this.timerInterval = setInterval(() => {
-          if (i < phrase.length) {
-            textEl.textContent += phrase[i];
-            i++;
-          } else {
+        while(this.timers.length){
+            clearTimeout(this.timers.pop());
+        }
+    },
+
+    hideAllScreens(){
+
+        this.screens.forEach(id=>{
+            document
+                .getElementById(id)
+                .classList
+                .remove('active');
+        });
+
+    },
+
+    run(id,duration,callback){
+
+        this.hideAllScreens();
+
+        const screen =
+            document.getElementById(id);
+
+        screen.classList.add('active');
+
+        if(id === 'boot'){
+
+            const scrollText =
+                screen.querySelector('.scroll-text');
+
+            scrollText.classList.remove('show');
+
+            requestAnimationFrame(()=>{
+                requestAnimationFrame(()=>{
+                    scrollText.classList.add('show');
+                });
+            });
+
+        }
+
+        const t = setTimeout(callback,duration);
+
+        this.timers.push(t);
+    },
+
+    skipTo(target){
+
+        this.clearAllTimers();
+        this.hideAllScreens();
+
+        if(target === 'bbs'){
+            bbs.init();
+            return;
+        }
+
+        document
+            .getElementById(target)
+            .classList
+            .add('active');
+    },
+
+    runDialer(){
+
+        this.hideAllScreens();
+
+        document
+            .getElementById('dialer')
+            .classList
+            .add('active');
+
+        const textEl =
+            document.getElementById('dialer-text');
+
+        textEl.textContent='';
+
+        const phrase =
+            'ENTER REMOTE NODE NUMBER: 3-2-6-1-6-6-7';
+
+        let index = 0;
+
+        this.timerInterval = setInterval(()=>{
+
+            if(index < phrase.length){
+                textEl.textContent += phrase[index++];
+                return;
+            }
+
             clearInterval(this.timerInterval);
-            setTimeout(() => {
-              document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-              this.runModemSequence();
-            }, 2000);
-          }
-        }, 80);
-      },
 
-      runModemSequence() {
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        document.getElementById('modem').classList.add('active');
-        
-        const log = document.getElementById('modem-log');
-        const lines = [
-          'AT&F0\r\n', 'OK\r\n', 'ATDT+261667\r\n', 
-          'CONNECTING...\r\n', '[|||||||||....] 9600 bps\r\n',
-          '\n╔══════════════════════════════════════╗\n',
-          '║    SAMTHOM.AS BBS ONLINE             ║\n',
-          '║    PRESS ENTER TO LOGIN              ║\n',
-          '╚══════════════════════════════════════╝\n'
+            const t = setTimeout(()=>{
+
+                this.runModemSequence();
+
+            },2000);
+
+            this.timers.push(t);
+
+        },80);
+
+    },
+
+    runModemSequence(){
+
+        this.hideAllScreens();
+
+        document
+            .getElementById('modem')
+            .classList
+            .add('active');
+
+        const modem =
+            document.getElementById('modem-log');
+
+        modem.textContent='';
+
+        const lines=[
+            'AT&F0\r\n',
+            'OK\r\n',
+            'ATDT+261667\r\n',
+            'CONNECTING...\r\n',
+            '[||||||||....] 9600 BPS\r\n',
+            '\n',
+            '╔══════════════════════════════════════╗\n',
+            '║      SAMTHOM.AS BBS ONLINE          ║\n',
+            '║      PRESS ENTER TO LOGIN           ║\n',
+            '╚══════════════════════════════════════╝\n'
         ];
+
         let i = 0;
-        this.timerInterval = setInterval(() => {
-          if (i < lines.length) {
-            log.textContent += lines[i];
-            i++;
-          } else {
+
+        this.timerInterval = setInterval(()=>{
+
+            if(i < lines.length){
+                modem.textContent += lines[i++];
+                return;
+            }
+
             clearInterval(this.timerInterval);
-            setTimeout(() => this.skipTo('bbs'), 2500);
-          }
-        }, 600);
-      }
-    };
 
-    // ── BBS Terminal Controller ──
-    const bbs = {
-      state: 'main', // main, about, projects, blog, contact
-      selectedIdx: 0,
-      menuItems: [
-        { id: 'about', label: 'SYSOP' },
-        { id: 'projects', label: 'ARCHIVES' },
-        { id: 'blog', label: 'SYSLOG' },
-        { id: 'contact', label: 'DATA' }
-      ],
+            const t = setTimeout(()=>{
+                bbs.init();
+            },2500);
 
-      init() {
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        document.getElementById('bbs').classList.add('active');
-        this.state = 'main';
-        this.selectedIdx = 0;
+            this.timers.push(t);
+
+        },600);
+
+    }
+
+};
+
+/* ==========================================================
+   BBS
+========================================================== */
+
+const bbs = {
+
+    state:'main',
+
+    menuItems:[
+        {id:'about',label:'SYSOP'},
+        {id:'projects',label:'ARCHIVES'},
+        {id:'blog',label:'SYSLOG'},
+        {id:'contact',label:'DATA'}
+    ],
+
+    init(){
+
+        seq.hideAllScreens();
+
+        document
+            .getElementById('bbs')
+            .classList
+            .add('active');
+
+        this.state='main';
+
         this.renderMenu();
-        this.updateSelection();
-        document.getElementById('skip-hint').style.display = 'none';
-      },
 
-      renderMenu() {
-        let html = `<div style="text-align:center; margin-bottom:15px; color:var(--amber); font-weight:bold;">
+        document
+            .getElementById('skip-hint')
+            .style.display='none';
+    },
+
+    renderMenu(){
+
+        let html=`
+<pre style="color:var(--amber)">
 ╔══════════════════════════════════════╗
-║      SAMTHOM.AS  BULLETIN BOARD      ║
+║      SAMTHOM.AS BULLETIN BOARD       ║
 ║      Enterprise Architecture         ║
 ║      Cloud Infrastructure & Security ║
 ║      Tier-1 Systems & Strategy       ║
 ╚══════════════════════════════════════╝
-
-  SELECT OPTION:
+</pre>
 `;
-        this.menuItems.forEach((item, i) => {
-          html += `  [${i+1}] ${item.label}\n`;
+
+        this.menuItems.forEach((item,idx)=>{
+
+            html += `
+<div class="menu-item" data-page="${item.id}">
+[${idx+1}] ${item.label}
+</div>
+`;
+
         });
-        html += `\n  [B] BACK TO MENU | [Q] QUIT TO PROMPT\n`;
-        document.getElementById('bbs-content').innerHTML = html;
-      },
 
-      renderContent(pageId) {
-        let html = `<div style="text-align:center; margin-bottom:15px; color:var(--amber); font-weight:bold;">
-╔══════════════════════════════════════╗
-║                    PAGE              ║
-╚══════════════════════════════════════╝
+        document.getElementById('bbs-content').innerHTML =
+            html;
+    },
 
+    renderContent(page){
+
+        this.state = page;
+
+        let html='';
+
+        switch(page){
+
+            case 'about':
+
+                html=`
+<h2>ABOUT</h2>
+
+30+ years in enterprise architecture,
+cloud infrastructure, security strategy,
+and digital transformation.
+
+Available for leadership, advisory,
+architecture and consulting engagements.
 `;
-        if (pageId === 'about') {
-          html += `<h2>ABOUT</h2>\n`;
-          html += `30+ years in enterprise IT, infrastructure architecture, and cloud solutions.\n`;
-          html += `Specializing in delivering operational resilience, technical modernization, and\n`;
-          html += `business-critical outcomes for tier-1 organizations across finance, gov, and tech.\n<br><br>`;
-          html += `<i>Open to advisory roles, technical writing, and consulting engagements.</i>\n`;
-        } else if (pageId === 'projects') {
-          html += `<h2>ARCHIVE</h2>\n`;
-          html += `<ul>\n<li>[ARCHIVE] Cloud Migration Framework for Global Financial Network (AWS/Azure)</li>\n`;
-          html += `<li>[OPEN SOURCE] Infrastructure-as-Code Reference Architecture (Terraform/Ansible)</li>\n`;
-          html += `<li>[DEPLOYED] Zero-Trust Edge Security Mesh for Tier-1 Healthcare Provider</li>\n`;
-          html += `</ul><br>`;
-          html += `<i>Full case studies & architecture diagrams available upon request.</i>\n`;
-        } else if (pageId === 'blog') {
-          html += `<h2>SYSLOG</h2>\n`;
-          html += `>[2024-11] The Death of the Monolith: Lessons from 30 Years in Infra\n`;
-          html += `>[2024-08] Cloud Cost Governance Without Stifling Innovation\n`;
-          html += `>[2024-05] Why Legacy Architecture Patterns Still Win Enterprise Battles\n`;
-          html += `<br><i>More entries in the BBS archive. Access via terminal or contact.</i>\n`;
-        } else if (pageId === 'contact') {
-          html += `<h2>CONTACT</h2>\n`;
-          html += `EMAIL:  sam@unstructu.re\n`;
-          html += `LINKEDIN: linkedin.com/in/-sam-thomas-\n`;
-          html += `GITHUB: github.com/sam0t0mas\n<br><br>`;
-          html += `<i>Response time: usually within 24-48 hours. Priority to technical inquiries.</i>\n`;
+            break;
+
+            case 'projects':
+
+                html=`
+<h2>ARCHIVES</h2>
+
+<ul>
+<li>Cloud Migration Framework</li>
+<li>IaC Reference Architecture</li>
+<li>Zero Trust Security Platform</li>
+</ul>
+`;
+            break;
+
+            case 'blog':
+
+                html=`
+<h2>SYSLOG</h2>
+
+>[2024-11] The Death of the Monolith
+
+>[2024-08] Cloud Cost Governance
+
+>[2024-05] Legacy Patterns Still Win
+`;
+            break;
+
+            case 'contact':
+
+                html=`
+<h2>CONTACT</h2>
+
+EMAIL: sam@unstructu.re
+
+LINKEDIN:
+linkedin.com/in/-sam-thomas-
+
+GITHUB:
+github.com/sam0t0mas
+`;
+            break;
         }
-        html += `\n[B] BACK TO MENU | [Q] QUIT TO PROMPT\n`;
-        document.getElementById('bbs-content').innerHTML = html;
-      },
 
-      updateSelection() {
-        const items = document.querySelectorAll('.menu-item');
-        items.forEach((el, i) => el.classList.toggle('selected', i === this.selectedIdx));
-      },
+        html += `
+<div class="divider"></div>
+[B] Back
+`;
 
-      handleInput(key) {
-        if (this.state === 'main') {
-          if (key >= 1 && key <= 4) this.renderContent(this.menuItems[key-1].id);
-          else if (key.toLowerCase() === 'b' || key.toLowerCase() === 'escape') this.renderMenu();
-          else if (key.toLowerCase() === 'q') seq.skipTo('dos');
-        } else {
-          if (key.toLowerCase() === 'b' || key.toLowerCase() === 'escape') { bbs.state = 'main'; this.renderMenu(); }
-          else if (key.toLowerCase() === 'q') seq.skipTo('dos');
+        document.getElementById('bbs-content').innerHTML =
+            html;
+    },
+
+    handleInput(key){
+
+        if(this.state === 'main'){
+
+            if(['1','2','3','4'].includes(key)){
+
+                this.renderContent(
+                    this.menuItems[
+                        parseInt(key)-1
+                    ].id
+                );
+
+            }
+
+            return;
         }
-      }
-    };
 
-    // ── Event Listeners ──
-    document.addEventListener('keydown', (e) => {
-      // Skip intro sequences
-      if (!seq.allowSkip && e.key !== 'Enter' && e.key !== 'Escape') {
-        seq.skipTo('bbs'); // Simplified: press any key during intro to jump to BBS
-      }
-
-      if (document.getElementById('bbs').classList.contains('active')) {
-        bbs.handleInput(e.key);
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      const content = document.getElementById('bbs-content');
-      if (!content) return;
-      
-      // Mouse click navigation for BBS
-      const menuTexts = ['[1]', '[2]', '[3]', '[4]'];
-      menuTexts.forEach((tag, i) => {
-        if (e.target.textContent.includes(tag)) {
-          bbs.renderContent(bbs.menuItems[i].id);
+        if(key.toLowerCase()==='b' || key==='Escape'){
+            this.state='main';
+            this.renderMenu();
         }
-      });
-      if (e.target.textContent.toLowerCase().includes('[b]')) bbs.renderMenu();
-      if (e.target.textContent.toLowerCase().includes('[q]') || e.target.textContent.toLowerCase().includes('[quit]')) seq.skipTo('dos');
-    });
+    }
 
-    // Show skip hint after 2s
-    setTimeout(() => document.getElementById('skip-hint').classList.add('visible'), 1500);
-    
-    // Start sequence
-    seq.init();
-  </script>
+};
+
+/* ==========================================================
+   EVENTS
+========================================================== */
+
+document.addEventListener('keydown',(e)=>{
+
+    const bbsActive =
+        document
+            .getElementById('bbs')
+            .classList
+            .contains('active');
+
+    if(!bbsActive){
+        seq.skipTo('bbs');
+        return;
+    }
+
+    bbs.handleInput(e.key);
+
+});
+
+document.addEventListener('click',(e)=>{
+
+    if(e.target.dataset.page){
+        bbs.renderContent(
+            e.target.dataset.page
+        );
+    }
+
+});
+
+/* ==========================================================
+   SKIP HINT
+========================================================== */
+
+setTimeout(()=>{
+
+    document
+        .getElementById('skip-hint')
+        .classList
+        .add('visible');
+
+},1500);
+
+/* ==========================================================
+   START
+========================================================== */
+
+seq.init();
+
+</script>
+
 </body>
 </html>
