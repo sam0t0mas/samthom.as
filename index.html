@@ -3,221 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BBS2026: the sysop is ONLINE</title>
+<title>BBS2026: THE SYSOP IS ONLINE</title>
 
 <style>
-:root{
-    --green:#33ff33;
-    --amber:#ffb000;
-    --cyan:#33ccff;
-    --bg:#050a05;
-    --panel-bg:rgba(0,15,0,.95);
+:root {
+    --green: #33ff33;
+    --amber: #ffb000;
+    --cyan: #33ccff;
+    --bg: #050a05;
+    --panel-bg: rgba(0, 15, 0, 0.95);
+    --crt-overlay: rgba(18, 16, 16, 0.1);
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    background:var(--bg);
-    color:var(--green);
-    font-family:
-        "Cascadia Mono",
-        "Consolas",
-        "Lucida Console",
-        monospace;
-    font-size:15px;
-    line-height:1.4;
-    overflow:hidden;
-    height:100vh;
-    width:100vw;
-}
-
-/* ==========================================================
-   SCREENS
-========================================================== */
-
-.screen{
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    padding:2rem;
-
-    visibility:hidden;
-    opacity:0;
-    pointer-events:none;
-
-    transition:opacity .3s ease;
-}
-
-.screen.active{
-    visibility:visible;
-    opacity:1;
-    pointer-events:auto;
+body {
+    background: var(--bg);
+    color: var(--green);
+    font-family: "Cascadia Mono", "Consolas", "Lucida Console", monospace;
+    font-size: 15px;
+    line-height: 1.4;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ==========================================================
-   CRT
+   CRT EFFECTS
 ========================================================== */
 
-.crt-text{
+/* Scanline Overlay */
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.2) 50%
+    ), linear-gradient(
+        90deg, 
+        rgba(255, 0, 0, 0.05), 
+        rgba(0, 255, 0, 0.02), 
+        rgba(0, 0, 255, 0.05)
+    );
+    background-size: 100% 3px, 3px 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Flicker Animation */
+@keyframes flicker {
+    0% { opacity: 0.97; }
+    5% { opacity: 0.95; }
+    10% { opacity: 0.9; }
+    15% { opacity: 0.98; }
+    20% { opacity: 0.96; }
+    100% { opacity: 1; }
+}
+
+.screen {
+    animation: flicker 0.15s infinite;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.screen.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.crt-text {
     text-shadow:
         0 0 3px currentColor,
-        0 0 8px currentColor,
-        0 0 15px rgba(51,255,51,.3);
-
-    -moz-osx-font-smoothing:grayscale;
-    text-rendering:geometricPrecision;
+        0 0 8px rgba(51, 255, 51, 0.4);
+    text-rendering: geometricPrecision;
 }
 
-.amber{
-    color:var(--amber);
-}
-
-.cyan{
-    color:var(--cyan);
-}
+.amber { color: var(--amber); }
+.cyan { color: var(--cyan); }
 
 /* ==========================================================
    CURSOR
 ========================================================== */
 
-.cursor{
-    display:inline-block;
-    width:10px;
-    height:18px;
-    margin-left:4px;
-    background:var(--green);
-    vertical-align:middle;
-    animation:blink 1s step-end infinite;
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--green);
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
 }
 
-@keyframes blink{
-    50%{
-        opacity:0;
-    }
+@keyframes blink {
+    50% { opacity: 0; }
 }
 
 /* ==========================================================
    BOOT SCROLL
 ========================================================== */
 
-.scroll-wrap{
-    position:relative;
-    width:80%;
-    max-width:700px;
-    height:60vh;
-    overflow:hidden;
+.scroll-wrap {
+    position: relative;
+    width: 80%;
+    max-width: 700px;
+    height: 60vh;
+    overflow: hidden;
 }
 
-.scroll-text{
-    position:absolute;
-    width:100%;
-    text-align:center;
-
-    white-space:pre-wrap;
-
-    opacity:0;
-    transform:translateY(120%);
-
-    transition:
-        opacity .8s ease,
-        transform 8s linear;
+.scroll-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    white-space: pre-wrap;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: transform 8s linear, opacity 0.8s;
 }
 
-.scroll-text.show{
-    opacity:1;
-    transform:translateY(-120%);
+.scroll-text.show {
+    opacity: 1;
+    transform: translateY(-100%);
 }
 
 /* ==========================================================
-   BBS
+   BBS UI
 ========================================================== */
 
-.terminal-frame{
-    width:90%;
-    max-width:900px;
-    height:80vh;
-
-    border:2px solid var(--green);
-    background:var(--panel-bg);
-
-    padding:1.5rem;
-    display:flex;
-    flex-direction:column;
+.terminal-frame {
+    width: 90%;
+    max-width: 800px;
+    height: 80vh;
+    border: 2px solid var(--green);
+    background: var(--panel-bg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(51, 255, 51, 0.2);
 }
 
-.terminal-content{
-    flex:1;
-    overflow-y:auto;
-    white-space:pre-wrap;
+.terminal-content {
+    flex: 1;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    margin-top: 1rem;
 }
 
-.menu-item{
-    cursor:pointer;
-    padding:4px 8px;
-    margin:2px 0;
-    transition:.15s;
+.menu-item {
+    cursor: pointer;
+    padding: 6px 12px;
+    margin: 4px 0;
+    border: 1px solid transparent;
 }
 
-.menu-item:hover{
-    background:rgba(51,255,51,.15);
-    color:#fff;
+.menu-item:hover {
+    background: rgba(51, 255, 51, 0.2);
+    border: 1px solid var(--green);
+    color: #fff;
 }
 
-.skip-hint{
-    position:fixed;
-    bottom:10px;
-    right:15px;
-
-    font-size:11px;
-    color:#666;
-
-    opacity:0;
-    transition:opacity 2s;
+.skip-hint {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 12px;
+    color: #444;
+    opacity: 0;
+    transition: opacity 1s;
 }
 
-.skip-hint.visible{
-    opacity:1;
+.skip-hint.visible { opacity: 1; }
+
+.divider {
+    border-top: 1px dashed var(--green);
+    opacity: 0.4;
+    margin: 20px 0;
 }
 
-.divider{
-    border-top:1px dashed var(--green);
-    opacity:.4;
-    margin:15px 0;
+h2 {
+    color: var(--amber);
+    margin-bottom: 1rem;
 }
 
-h2{
-    color:var(--amber);
-    margin:10px 0;
+/* Custom Scrollbar */
+.terminal-content::-webkit-scrollbar {
+    width: 8px;
 }
-
-ul{
-    padding-left:20px;
+.terminal-content::-webkit-scrollbar-track {
+    background: #000;
 }
-
-li{
-    margin-bottom:5px;
+.terminal-content::-webkit-scrollbar-thumb {
+    background: var(--green);
 }
 </style>
 </head>
 
 <body>
 
-<!-- ==========================================================
-     BOOT
-========================================================== -->
-
-<div id="boot" class="screen active">
-    <div class="scroll-wrap">
-<pre class="scroll-text crt-text">
+    <div id="boot" class="screen active">
+        <div class="scroll-wrap">
+            <pre class="scroll-text crt-text">
 IBM PC XT/PS/1 SYSTEM BIOS v3.10
 (C) IBM CORPORATION 1984, 1987
 
@@ -228,283 +229,175 @@ DETECTING HARD DISKS...
 LOADING OPERATING SYSTEM...
 
 MS-DOS VERSION 5.0
-</pre>
-    </div>
-</div>
-
-<!-- ==========================================================
-     DOS
-========================================================== -->
-
-<div id="dos" class="screen">
-    <div class="crt-text">
-        Microsoft(R) MS-DOS
+            </pre>
+        </div>
     </div>
 
-    <br>
-
-    <div class="crt-text">
-        C:\> SYSTEM READY
-        <span class="cursor"></span>
+    <div id="dos" class="screen">
+        <div class="crt-text">Microsoft(R) MS-DOS</div>
+        <br>
+        <div class="crt-text">C:\> SYSTEM READY
+        <span class="cursor"></span></div>
     </div>
-</div>
 
-<!-- ==========================================================
-     DIALER
-========================================================== -->
-
-<div id="dialer" class="screen">
-    <div id="dialer-text" class="crt-text"></div>
-
-    <br>
-
-    <div id="dialer-status" class="amber">
-        ESTABLISHING REMOTE LINK...
-        <span class="cursor"></span>
+    <div id="dialer" class="screen">
+        <div id="dialer-text" class="crt-text"></div>
+        <br>
+        <div id="dialer-status" class="amber">
+            ESTABLISHING REMOTE LINK...
+            <span class="cursor"></span>
+        </div>
     </div>
-</div>
 
-<!-- ==========================================================
-     MODEM
-========================================================== -->
-
-<div id="modem" class="screen">
-<pre id="modem-log" class="amber crt-text"></pre>
-</div>
-
-<!-- ==========================================================
-     BBS
-========================================================== -->
-
-<div id="bbs" class="screen">
-    <div class="terminal-frame crt-text">
-        <div id="bbs-content" class="terminal-content"></div>
+    <div id="modem" class="screen">
+        <pre id="modem-log" class="amber crt-text"></pre>
     </div>
-</div>
 
-<div id="skip-hint" class="skip-hint">
-    PRESS ANY KEY TO SKIP INTRO
-</div>
+    <div id="bbs" class="screen">
+        <div class="terminal-frame crt-text">
+            <div id="bbs-content" class="terminal-content"></div>
+        </div>
+    </div>
 
-<script>
+    <div id="skip-hint" class="skip-hint">
+        PRESS ANY KEY TO SKIP INTRO
+    </div>
+
+    <script>
+/** 
+ * UTILITY: Typewriter effect
+ * Ensures text appears with realistic timing
+ */
+const Typewriter = {
+    async write(elementId, text, speed = 50) {
+        const el = document.getElementById(elementId);
+        el.textContent = '';
+        const words = text.split('');
+        for (const char of words) {
+            el.textContent += char;
+            await new Promise(r => setTimeout(r, speed));
+        }
+    }
+};
 
 /* ==========================================================
    SEQUENCE CONTROLLER
 ========================================================== */
 
 const seq = {
+    screens: ['boot', 'dos', 'dialer', 'modem', 'bbs'],
+    currentTimeout: null,
 
-    screens:['boot','dos','dialer','modem','bbs'],
-    timers:[],
-    timerInterval:null,
-
-    init(){
-
-        this.run('boot',7000,()=>{
-
-            this.run('dos',3000,()=>{
-
+    init() {
+        // Start the initial sequence
+        this.run('boot', 6000, () => {
+            this.run('dos', 3000, () => {
                 this.runDialer();
-
             });
-
         });
-
     },
 
-    clearAllTimers(){
-
-        if(this.timerInterval){
-            clearInterval(this.timerInterval);
-        }
-
-        while(this.timers.length){
-            clearTimeout(this.timers.pop());
-        }
+    clearAll() {
+        clearTimeout(this.currentTimeout);
     },
 
-    hideAllScreens(){
-
-        this.screens.forEach(id=>{
-            document
-                .getElementById(id)
-                .classList
-                .remove('active');
+    hideAll() {
+        this.screens.forEach(id => {
+            document.getElementById(id).classList.remove('active');
         });
-
     },
 
-    run(id,duration,callback){
+    run(id, duration, callback) {
+        this.clearAll();
+        this.hideAll();
 
-        this.hideAllScreens();
-
-        const screen =
-            document.getElementById(id);
-
+        const screen = document.getElementById(id);
         screen.classList.add('active');
 
-        if(id === 'boot'){
-
-            const scrollText =
-                screen.querySelector('.scroll-text');
-
+        if (id === 'boot') {
+            const scrollText = screen.querySelector('.scroll-text');
             scrollText.classList.remove('show');
-
-            requestAnimationFrame(()=>{
-                requestAnimationFrame(()=>{
-                    scrollText.classList.add('show');
-                });
-            });
-
+            // Force reflow
+            scrollText.offsetHeight; 
+            scrollText.classList.add('show');
         }
 
-        const t = setTimeout(callback,duration);
-
-        this.timers.push(t);
+        this.currentTimeout = setTimeout(callback, duration);
     },
 
-    skipTo(target){
-
-        this.clearAllTimers();
-        this.hideAllScreens();
-
-        if(target === 'bbs'){
+    skipTo(target) {
+        this.clearAll();
+        this.hideAll();
+        
+        if (target === 'bbs') {
             bbs.init();
-            return;
+        } else {
+            document.getElementById(target).classList.add('active');
         }
-
-        document
-            .getElementById(target)
-            .classList
-            .add('active');
     },
 
-    runDialer(){
+    async runDialer() {
+        this.hideAll();
+        document.getElementById('dialer').classList.add('active');
 
-        this.hideAllScreens();
+        const phrase = 'ENTER REMOTE NODE NUMBER: 3-2-6-1-6-6-7';
+        await Typewriter.write('dialer-text', phrase, 70);
 
-        document
-            .getElementById('dialer')
-            .classList
-            .add('active');
-
-        const textEl =
-            document.getElementById('dialer-text');
-
-        textEl.textContent='';
-
-        const phrase =
-            'ENTER REMOTE NODE NUMBER: 3-2-6-1-6-6-7';
-
-        let index = 0;
-
-        this.timerInterval = setInterval(()=>{
-
-            if(index < phrase.length){
-                textEl.textContent += phrase[index++];
-                return;
-            }
-
-            clearInterval(this.timerInterval);
-
-            const t = setTimeout(()=>{
-
-                this.runModemSequence();
-
-            },2000);
-
-            this.timers.push(t);
-
-        },80);
-
+        await new Promise(r => setTimeout(r, 1500));
+        this.runModemSequence();
     },
 
-    runModemSequence(){
-
-        this.hideAllScreens();
-
-        document
-            .getElementById('modem')
-            .classList
-            .add('active');
-
-        const modem =
-            document.getElementById('modem-log');
-
-        modem.textContent='';
-
-        const lines=[
-            'AT&F0\r\n',
-            'OK\r\n',
-            'ATDT+261667\r\n',
-            'CONNECTING...\r\n',
-            '[||||||||....] 9600 BPS\r\n',
-            '\n',
-            '╔══════════════════════════════════════╗\n',
-            '║      SAMTHOM.AS BBS ONLINE          ║\n',
-            '║      PRESS ENTER TO LOGIN           ║\n',
-            '╚══════════════════════════════════════╝\n'
+    async runModemSequence() {
+        this.hideAll();
+        document.getElementById('modem').classList.add('active');
+        
+        const lines = [
+            'AT&F0',
+            'OK',
+            'ATDT+261667',
+            'CONNECTING...',
+            '[||||||||....] 9600 BPS',
+            '',
+            '╔══════════════════════════════════════╗',
+            '║      SAMTHOM.AS BBS ONLINE          ║',
+            '║      PRESS ENTER TO LOGIN           ║',
+            '╚══════════════════════════════════════╝'
         ];
 
-        let i = 0;
+        const logEl = document.getElementById('modem-log');
+        for (let line of lines) {
+            logEl.textContent += line + '\n';
+            await new Promise(r => setTimeout(r, 400));
+        }
 
-        this.timerInterval = setInterval(()=>{
-
-            if(i < lines.length){
-                modem.textContent += lines[i++];
-                return;
-            }
-
-            clearInterval(this.timerInterval);
-
-            const t = setTimeout(()=>{
-                bbs.init();
-            },2500);
-
-            this.timers.push(t);
-
-        },600);
-
+        await new Promise(r => setTimeout(r, 2000));
+        bbs.init();
     }
-
 };
 
 /* ==========================================================
-   BBS
+   BBS ENGINE
 ========================================================== */
 
 const bbs = {
-
-    state:'main',
-
-    menuItems:[
-        {id:'about',label:'SYSOP'},
-        {id:'projects',label:'ARCHIVES'},
-        {id:'blog',label:'SYSLOG'},
-        {id:'contact',label:'DATA'}
+    state: 'main',
+    menuItems: [
+        { id: 'about', label: 'SYSOP' },
+        { id: 'projects', label: 'ARCHIVES' },
+        { id: 'blog', label: 'SYSLOG' },
+        { id: 'contact', label: 'DATA' }
     ],
 
-    init(){
-
-        seq.hideAllScreens();
-
-        document
-            .getElementById('bbs')
-            .classList
-            .add('active');
-
-        this.state='main';
-
+    init() {
+        seq.hideAll();
+        document.getElementById('bbs').classList.add('active');
+        this.state = 'main';
         this.renderMenu();
-
-        document
-            .getElementById('skip-hint')
-            .style.display='none';
+        document.getElementById('skip-hint').style.display = 'none';
     },
 
-    renderMenu(){
-
-        let html=`
+    renderMenu() {
+        let html = `
 <pre style="color:var(--amber)">
 ╔══════════════════════════════════════╗
 ║      SAMTHOM.AS BULLETIN BOARD       ║
@@ -514,170 +407,112 @@ const bbs = {
 ╚══════════════════════════════════════╝
 </pre>
 `;
-
-        this.menuItems.forEach((item,idx)=>{
-
+        this.menuItems.forEach((item, idx) => {
             html += `
 <div class="menu-item" data-page="${item.id}">
-[${idx+1}] ${item.label}
+[${idx + 1}] ${item.label}
 </div>
 `;
-
         });
-
-        document.getElementById('bbs-content').innerHTML =
-            html;
+        document.getElementById('bbs-content').innerHTML = html;
     },
 
-    renderContent(page){
-
+    renderContent(page) {
         this.state = page;
+        let content = '';
 
-        let html='';
-
-        switch(page){
-
+        switch (page) {
             case 'about':
-
-                html=`
+                content = `
 <h2>ABOUT</h2>
-
 30+ years in enterprise architecture,
 cloud infrastructure, security strategy,
 and digital transformation.
 
 Available for leadership, advisory,
-architecture and consulting engagements.
-`;
-            break;
-
+architecture and consulting engagements.`;
+                break;
             case 'projects':
-
-                html=`
+                content = `
 <h2>ARCHIVES</h2>
-
-<ul>
+<ul style="margin-left:20px;">
 <li>Cloud Migration Framework</li>
 <li>IaC Reference Architecture</li>
 <li>Zero Trust Security Platform</li>
-</ul>
-`;
-            break;
-
+</ul>`;
+                break;
             case 'blog':
-
-                html=`
+                content = `
 <h2>SYSLOG</h2>
-
 >[2024-11] The Death of the Monolith
-
 >[2024-08] Cloud Cost Governance
-
->[2024-05] Legacy Patterns Still Win
-`;
-            break;
-
+>[2024-05] Legacy Patterns Still Win`;
+                break;
             case 'contact':
-
-                html=`
+                content = `
 <h2>CONTACT</h2>
-
 EMAIL: sam@unstructu.re
 
 LINKEDIN:
 linkedin.com/in/-sam-thomas-
 
 GITHUB:
-github.com/sam0t0mas
-`;
-            break;
+github.com/sam0t0mas`;
+                break;
         }
 
-        html += `
-<div class="divider"></div>
-[B] Back
-`;
-
-        document.getElementById('bbs-content').innerHTML =
-            html;
+        document.getElementById('bbs-content').innerHTML = `
+            ${content}
+            <div class="divider"></div>
+            <span style="color:white"><b>[B]</b> Back</span>
+        `;
     },
 
-    handleInput(key){
-
-        if(this.state === 'main'){
-
-            if(['1','2','3','4'].includes(key)){
-
-                this.renderContent(
-                    this.menuItems[
-                        parseInt(key)-1
-                    ].id
-                );
-
+    handleInput(key) {
+        if (this.state === 'main') {
+            if (['1', '2', '3', '4'].includes(key)) {
+                const selected = this.menuItems[parseInt(key) - 1];
+                this.renderContent(selected.id);
             }
-
             return;
         }
 
-        if(key.toLowerCase()==='b' || key==='Escape'){
-            this.state='main';
+        if (key.toLowerCase() === 'b' || key === 'Escape') {
+            this.state = 'main';
             this.renderMenu();
         }
     }
-
 };
 
 /* ==========================================================
-   EVENTS
+   EVENT LISTENERS
 ========================================================== */
 
-document.addEventListener('keydown',(e)=>{
-
-    const bbsActive =
-        document
-            .getElementById('bbs')
-            .classList
-            .contains('active');
-
-    if(!bbsActive){
+document.addEventListener('keydown', (e) => {
+    const isBbsActive = document.getElementById('bbs').classList.contains('active');
+    
+    if (!isBbsActive) {
         seq.skipTo('bbs');
         return;
     }
 
     bbs.handleInput(e.key);
-
 });
 
-document.addEventListener('click',(e)=>{
-
-    if(e.target.dataset.page){
-        bbs.renderContent(
-            e.target.dataset.page
-        );
+document.addEventListener('click', (e) => {
+    const target = e.target.closest('.menu-item');
+    if (target) {
+        bbs.renderContent(target.dataset.page);
     }
-
 });
 
-/* ==========================================================
-   SKIP HINT
-========================================================== */
+// Show skip hint
+setTimeout(() => {
+    document.getElementById('skip-hint').classList.add('visible');
+}, 1500);
 
-setTimeout(()=>{
-
-    document
-        .getElementById('skip-hint')
-        .classList
-        .add('visible');
-
-},1500);
-
-/* ==========================================================
-   START
-========================================================== */
-
+// Start
 seq.init();
-
-</script>
-
+    </script>
 </body>
 </html>
