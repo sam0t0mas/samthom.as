@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Sam Thomas: a scrolling career and technology story from first computer to CTO advisory.">
+  <title>Sam Thomas | Architecting Systems Since 1989</title>
+  <style>
+    :root {
+      --bg:#07111f; --bg2:#0b1728; --panel:rgba(15,31,52,.76);
+      --ink:#f4f8ff; --muted:#9eb0c8; --cyan:#31ddff; --blue:#668cff;
+      --violet:#aa76ff; --gold:#ffc857; --line:rgba(49,221,255,.25);
+      --shadow:0 20px 60px rgba(0,0,0,.34); --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{margin:0;color:var(--ink);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at 15% 8%,rgba(49,221,255,.13),transparent 22rem),
+      radial-gradient(circle at 85% 35%,rgba(170,118,255,.11),transparent 25rem),
+      linear-gradient(180deg,#06101d 0%,#091625 48%,#06101d 100%);overflow-x:hidden}
+    a{color:inherit}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+    .progress{position:fixed;z-index:50;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--gold));box-shadow:0 0 18px var(--cyan)}
+    .noise{position:fixed;inset:0;pointer-events:none;opacity:.025;z-index:40;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .hero{min-height:100svh;display:grid;align-items:center;padding:80px 0 50px;position:relative}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.eyebrow:before{content:"";width:28px;height:1px;background:currentColor}
+    h1{font-size:clamp(3rem,11vw,7.8rem);line-height:.92;letter-spacing:-.065em;margin:.3em 0 .18em;max-width:980px}
+    .gradient{background:linear-gradient(100deg,#fff 4%,var(--cyan) 48%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{max-width:720px;color:#c6d3e5;font-size:clamp(1.05rem,2.4vw,1.35rem);margin:0 0 30px}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:10px}.pill{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);padding:9px 13px;border-radius:999px;color:#dbe7f7;font-size:.84rem;backdrop-filter:blur(10px)}
+    .scroll-cue{position:absolute;bottom:24px;left:50%;translate:-50%;color:var(--muted);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-align:center}.scroll-cue:after{content:"";display:block;width:1px;height:38px;margin:10px auto 0;background:linear-gradient(var(--cyan),transparent);animation:pulse 1.8s infinite}@keyframes pulse{50%{opacity:.3;transform:scaleY(.65)}}
+    section{padding:90px 0}.section-head{margin-bottom:34px}.kicker{color:var(--cyan);text-transform:uppercase;font-size:.76rem;font-weight:800;letter-spacing:.16em}.section-head h2{font-size:clamp(2.1rem,6vw,4.3rem);line-height:1.02;letter-spacing:-.045em;margin:.15em 0}.section-head p{color:var(--muted);max-width:680px;margin:0}
+    .story{position:relative;display:grid;gap:28px}.story:before{content:"";position:absolute;top:10px;bottom:10px;left:19px;width:2px;background:linear-gradient(var(--cyan),var(--violet),var(--gold));opacity:.55}
+    .chapter{display:grid;grid-template-columns:40px 1fr;gap:18px;position:relative}.node{width:14px;height:14px;margin:10px 0 0 13px;border-radius:50%;background:var(--bg);border:3px solid var(--cyan);box-shadow:0 0 0 7px rgba(49,221,255,.08),0 0 20px rgba(49,221,255,.45);z-index:2}.chapter:nth-child(4n+2) .node{border-color:var(--blue)}.chapter:nth-child(4n+3) .node{border-color:var(--violet)}.chapter:nth-child(4n+4) .node{border-color:var(--gold)}
+    .card{background:linear-gradient(145deg,rgba(18,38,63,.94),rgba(10,23,40,.78));border:1px solid rgba(255,255,255,.09);border-radius:var(--radius);padding:clamp(22px,4vw,38px);box-shadow:var(--shadow);position:relative;overflow:hidden}.card:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-85px;top:-96px;background:radial-gradient(circle,rgba(49,221,255,.18),transparent 68%)}
+    .years{font:800 .75rem/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em;color:var(--cyan)}.card h3{font-size:clamp(1.55rem,4vw,2.35rem);letter-spacing:-.03em;margin:.35em 0}.card p{color:#b7c6da;margin:0 0 18px}.highlights{display:flex;gap:8px;flex-wrap:wrap}.tag{font-size:.75rem;color:#d8e6f7;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 9px;background:rgba(255,255,255,.04)}
+    .pivot{margin-top:18px;padding:16px 18px;border-left:3px solid var(--cyan);background:rgba(49,221,255,.06);border-radius:0 12px 12px 0;color:#e5f8ff;font-weight:650}
+    .hardware-shell{border:1px solid rgba(255,255,255,.1);border-radius:28px;background:rgba(7,17,31,.66);box-shadow:var(--shadow);overflow:hidden}
+    .hardware-nav{display:flex;overflow-x:auto;scrollbar-width:none;padding:18px 18px 12px;gap:8px;scroll-snap-type:x proximity;border-bottom:1px solid rgba(255,255,255,.08)}.hardware-nav::-webkit-scrollbar{display:none}.hw-button{flex:0 0 auto;scroll-snap-align:center;background:transparent;border:1px solid rgba(255,255,255,.11);color:var(--muted);padding:9px 13px;border-radius:999px;font:700 .78rem/1 inherit;cursor:pointer;transition:.25s}.hw-button:hover,.hw-button.active{color:#05131e;background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 22px rgba(49,221,255,.25)}
+    .hardware-stage{min-height:330px;display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);align-items:center;gap:28px;padding:clamp(26px,6vw,62px)}
+    .machine{aspect-ratio:1;max-width:230px;width:100%;margin:auto;display:grid;place-items:center;border-radius:34px;background:linear-gradient(145deg,rgba(49,221,255,.15),rgba(170,118,255,.09));border:1px solid rgba(49,221,255,.23);position:relative}.machine:before{content:"";position:absolute;inset:12%;border:1px solid rgba(255,255,255,.1);border-radius:24px}.machine svg{width:52%;filter:drop-shadow(0 14px 24px rgba(0,0,0,.4))}.hw-copy small{color:var(--cyan);font-weight:800;letter-spacing:.16em;text-transform:uppercase}.hw-copy h3{font-size:clamp(2rem,5vw,3.7rem);line-height:1;margin:.22em 0;letter-spacing:-.04em}.hw-copy p{color:#b8c8dc;max-width:560px}.spec{color:#fff;font:700 .82rem/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;margin-top:16px}.hint{font-size:.76rem;color:#798da7;margin-top:14px}
+    .ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch}.step{min-height:180px;border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018));display:flex;flex-direction:column;justify-content:flex-end}.step b{font-size:1rem}.step span{color:var(--muted);font-size:.78rem}.step:nth-child(2){transform:translateY(-12px)}.step:nth-child(3){transform:translateY(-24px)}.step:nth-child(4){transform:translateY(-36px)}.step:nth-child(5){transform:translateY(-48px);border-color:rgba(49,221,255,.35);box-shadow:0 12px 35px rgba(49,221,255,.08)}
+    .lessons{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.lesson{padding:25px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.035)}.lesson strong{display:block;color:var(--cyan);font-size:1.03rem;margin-bottom:5px}.lesson p{margin:0;color:var(--muted)}
+    .closing{text-align:center;min-height:78svh;display:grid;place-items:center}.closing blockquote{margin:0 auto;max-width:880px;font-size:clamp(2rem,7vw,5.5rem);font-weight:800;line-height:1.02;letter-spacing:-.05em}.closing p{color:var(--muted)}
+    footer{padding:32px 0 44px;border-top:1px solid rgba(255,255,255,.07);color:#72869f;font-size:.78rem;display:flex;justify-content:space-between;gap:20px}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
+    @media(max-width:720px){section{padding:68px 0}.wrap{width:min(100% - 22px,1120px)}.hero{padding-top:72px}.hardware-stage{grid-template-columns:1fr;min-height:520px;text-align:center}.machine{max-width:170px}.hw-copy p{margin-inline:auto}.ladder{grid-template-columns:1fr}.step{min-height:auto}.step:nth-child(n){transform:none}.lessons{grid-template-columns:1fr}.story:before{left:13px}.chapter{grid-template-columns:28px 1fr;gap:9px}.node{margin-left:7px}.card{border-radius:18px}.scroll-cue{display:none}footer{flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.scroll-cue:after{animation:none}}
+
+    /* V2 mobile narrative and motion refinements */
+    body:before,body:after{content:"";position:fixed;width:48vmax;height:48vmax;border-radius:50%;filter:blur(90px);opacity:.07;pointer-events:none;z-index:-1;animation:drift 18s ease-in-out infinite alternate}
+    body:before{background:var(--cyan);left:-25vmax;top:8vh}body:after{background:var(--violet);right:-28vmax;top:48vh;animation-delay:-7s}@keyframes drift{to{transform:translate3d(8vw,8vh,0) scale(1.12)}}
+    .hero .wrap{position:relative}.hero .wrap:after{content:"01";position:absolute;right:0;top:-14vh;font:900 clamp(8rem,27vw,22rem)/1 ui-monospace,monospace;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.055);z-index:-1}
+    .hero h1,.hero .lead,.hero-meta,.eyebrow{animation:heroIn .9s cubic-bezier(.2,.8,.2,1) both}.hero h1{animation-delay:.1s}.hero .lead{animation-delay:.22s}.hero-meta{animation-delay:.34s}@keyframes heroIn{from{opacity:0;transform:translateY(26px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+    .pill{position:relative;overflow:hidden}.pill:after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);animation:shine 5s 1.2s infinite}@keyframes shine{20%,100%{transform:translateX(120%)}}
+    .chapter .card{transform-style:preserve-3d;transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}.chapter .card:hover{border-color:rgba(49,221,255,.28);box-shadow:0 28px 80px rgba(0,0,0,.42)}
+    .chapter.visible .node{animation:nodePop .6s cubic-bezier(.2,1.5,.4,1) both}.chapter.visible .card:before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));transform-origin:left;animation:growLine .9s .15s both}@keyframes nodePop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}@keyframes growLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .tag{transition:transform .2s ease,background .2s ease}.tag:hover{transform:translateY(-2px);background:rgba(49,221,255,.09)}
+    .hardware-shell{position:relative}.hardware-shell:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,30%) var(--my,50%),rgba(49,221,255,.12),transparent 32%);pointer-events:none;transition:.2s}
+    .machine{overflow:hidden}.machine:after{content:"";position:absolute;width:65%;height:180%;top:-40%;left:-90%;transform:rotate(18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);animation:scan 4.6s infinite}@keyframes scan{55%,100%{left:140%}}
+    .machine svg{animation:floatMachine 4s ease-in-out infinite}@keyframes floatMachine{50%{transform:translateY(-8px)}}
+    .hw-copy.swap{animation:contentSwap .42s ease both}@keyframes contentSwap{from{opacity:.15;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .hardware-nav:after{content:"";flex:0 0 10px}.hw-button{min-height:42px}.hw-button.active{transform:scale(1.06)}
+    .step{transition:transform .35s ease,border-color .35s ease,background .35s ease}.step:hover{border-color:rgba(49,221,255,.35);background:rgba(49,221,255,.06)}
+    .lesson{position:relative;overflow:hidden;transition:transform .3s ease,border-color .3s ease}.lesson:before{content:"";position:absolute;inset:auto -20% -60% auto;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(49,221,255,.12),transparent 70%)}.lesson:hover{transform:translateY(-5px);border-color:rgba(49,221,255,.32)}
+    .chapter-dots{position:fixed;right:max(8px,env(safe-area-inset-right));top:50%;translate:0 -50%;display:grid;gap:9px;z-index:30}.chapter-dot{width:7px;height:7px;border:0;padding:0;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:.25s}.chapter-dot.active{height:25px;border-radius:8px;background:var(--cyan);box-shadow:0 0 13px rgba(49,221,255,.6)}
+    .swipe-note{display:none}.ambient-grid{position:fixed;inset:0;pointer-events:none;z-index:-2;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,black,transparent 75%)}
+    @media(max-width:720px){
+      body{font-size:15.5px;line-height:1.58}.wrap{width:min(100% - 20px,1120px)}section{padding:58px 0}.hero{min-height:94svh;padding:64px 0 40px}.hero h1{font-size:clamp(3.15rem,17.2vw,5.8rem);line-height:.88;margin-top:.42em}.lead{font-size:1rem;line-height:1.55}.hero-meta{gap:7px}.pill{font-size:.72rem;padding:7px 10px}.eyebrow{font-size:.66rem}.section-head{margin-bottom:24px}.section-head h2{font-size:clamp(2.3rem,12vw,3.45rem)}
+      .story{gap:19px}.story:before{left:10px}.chapter{grid-template-columns:21px minmax(0,1fr);gap:6px}.node{width:12px;height:12px;margin-left:5px;border-width:2px}.card{padding:22px 18px}.card h3{font-size:1.7rem}.card p{font-size:.94rem}.tag{font-size:.68rem;padding:5px 7px}.pivot{font-size:.88rem;padding:13px 14px}
+      .hardware-shell{border-radius:20px}.hardware-nav{position:sticky;top:3px;z-index:5;padding:12px 10px 10px;background:rgba(7,17,31,.89);backdrop-filter:blur(16px)}.hardware-stage{min-height:490px;padding:32px 20px 38px;gap:19px}.machine{max-width:145px;border-radius:27px}.hw-copy h3{font-size:2.45rem}.hw-copy p{font-size:.93rem}.spec{font-size:.73rem}.swipe-note{display:block;color:#72869f;font-size:.7rem;text-align:center;padding:0 0 13px}
+      .ladder{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:2px 2px 15px;scrollbar-width:none}.ladder::-webkit-scrollbar{display:none}.step{flex:0 0 82%;min-height:145px;scroll-snap-align:center;padding:20px}.step:nth-child(n){transform:none}.step b{font-size:1.18rem}
+      .lessons{gap:10px}.lesson{padding:21px}.closing{min-height:70svh}.closing blockquote{font-size:clamp(2.55rem,13vw,4.6rem)}footer{padding-left:4px;padding-right:4px}.chapter-dots{display:none}
+    }
+    @media(hover:none){.chapter .card:hover,.lesson:hover{transform:none}}
+    @media(prefers-reduced-motion:reduce){body:before,body:after,.hero h1,.hero .lead,.hero-meta,.eyebrow,.pill:after,.machine:after,.machine svg{animation:none!important}.chapter.visible .node,.chapter.visible .card:before{animation:none!important}.reveal{opacity:1;transform:none}}
+
+    .voice-section{position:relative}.voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.voice-card{position:relative;min-height:260px;padding:30px;border-radius:22px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,rgba(16,34,57,.9),rgba(9,21,37,.82));overflow:hidden}.voice-card:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-80px;bottom:-95px;background:radial-gradient(circle,rgba(170,118,255,.17),transparent 70%)}.voice-icon{font:800 .72rem/1 ui-monospace,monospace;color:var(--cyan);letter-spacing:.14em}.voice-card h3{font-size:1.45rem;margin:.55em 0 .45em;letter-spacing:-.025em}.voice-card p{margin:0;color:var(--muted)}.voice-quote{margin-top:16px;padding:35px clamp(24px,5vw,55px);border-radius:22px;border:1px solid rgba(49,221,255,.18);background:linear-gradient(100deg,rgba(49,221,255,.07),rgba(170,118,255,.06));display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}.voice-quote span{font:800 4rem/1 Georgia,serif;color:var(--cyan)}.voice-quote p{font-size:clamp(1.3rem,3vw,2.1rem);line-height:1.25;letter-spacing:-.025em;margin:5px 0 0;color:#edf7ff}.voice-card.visible{animation:voiceRise .7s both}@keyframes voiceRise{from{opacity:0;transform:translateY(25px) scale(.98)}to{opacity:1;transform:none}}@media(max-width:720px){.voice-grid{grid-template-columns:1fr}.voice-card{min-height:auto;padding:23px 20px}.voice-quote{padding:25px 20px;grid-template-columns:27px 1fr}.voice-quote span{font-size:3rem}.voice-quote p{font-size:1.25rem}}
+
+    /* 286 / CGA demoscene window */
+    .retro-section{padding-top:30px}.retro-intro{max-width:720px}.retro-window{position:relative;width:min(100%,930px);margin:34px auto 0;border:1px solid #7790a8;border-radius:10px;background:#b8bec4;box-shadow:0 26px 85px rgba(0,0,0,.55),inset 0 1px #fff;overflow:hidden;color:#000;font-family:"Courier New",ui-monospace,monospace}.retro-titlebar{height:32px;display:flex;align-items:center;gap:8px;padding:0 10px;background:linear-gradient(90deg,#000080,#1084c5);color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;user-select:none}.retro-appicon{width:16px;height:14px;background:#000;border:1px solid #fff;box-shadow:inset 0 0 0 2px #0aa}.retro-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}.retro-controls{display:flex;gap:4px}.retro-controls i{display:block;width:15px;height:14px;border:1px solid #fff;background:#c0c0c0;box-shadow:inset 1px 1px #fff,inset -1px -1px #333}.retro-menubar{height:25px;display:flex;align-items:center;gap:20px;padding:0 10px;background:#c0c0c0;border-bottom:1px solid #555;font-size:12px}.retro-screen{position:relative;background:#000;aspect-ratio:16/10;max-height:72svh;overflow:hidden;cursor:crosshair;isolation:isolate}.retro-screen canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges;background:#000}.boot-layer{position:absolute;inset:0;z-index:3;padding:3.5% 4%;color:#aaa;background:#000;font:clamp(10px,1.6vw,17px)/1.34 "Courier New",monospace;white-space:pre-wrap;overflow:auto;text-shadow:0 0 6px rgba(170,170,170,.32);transition:opacity .5s}.boot-layer.hidden{opacity:0;pointer-events:none}.boot-cursor{display:inline-block;width:.65em;height:1.05em;background:#aaa;vertical-align:-.15em;animation:bootBlink .75s steps(1) infinite}@keyframes bootBlink{50%{opacity:0}}.crt-overlay{position:absolute;inset:0;z-index:4;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.19) 0,rgba(0,0,0,.19) 1px,transparent 1px,transparent 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.44) 100%);mix-blend-mode:multiply}.crt-overlay:after{content:"";position:absolute;inset:-30% 0;background:linear-gradient(transparent 0%,rgba(255,255,255,.045) 49%,rgba(255,255,255,.09) 50%,transparent 52%);animation:crtRoll 7s linear infinite}@keyframes crtRoll{to{transform:translateY(60%)}}.retro-status{height:27px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 8px;background:#c0c0c0;border-top:1px solid #fff;font-size:11px}.retro-status span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.retro-actions{display:flex;gap:5px}.retro-btn{font:700 11px "Courier New",monospace;color:#000;background:#c0c0c0;border:0;padding:4px 9px;box-shadow:inset 1px 1px #fff,inset -1px -1px #333;cursor:pointer}.retro-btn:active{box-shadow:inset 1px 1px #333,inset -1px -1px #fff;transform:translate(1px,1px)}.retro-caption{display:grid;grid-template-columns:auto 1fr;gap:15px;align-items:start;margin:18px auto 0;max-width:850px;color:var(--muted);font-size:.88rem}.retro-caption b{color:var(--cyan);font:800 .72rem/1 ui-monospace,monospace;letter-spacing:.12em}.retro-badge{position:absolute;z-index:6;right:10px;top:10px;padding:4px 7px;color:#fff;background:#000080;border:1px solid #55ffff;font:700 9px/1 "Courier New",monospace;letter-spacing:.11em;opacity:.8}.retro-window:focus-within{outline:2px solid rgba(49,221,255,.34);outline-offset:4px}
+    @media(max-width:720px){.retro-section{padding-top:10px}.retro-window{width:calc(100% + 8px);margin-left:-4px;border-radius:7px}.retro-titlebar{height:29px}.retro-menubar{height:23px;gap:14px;font-size:10px}.retro-screen{aspect-ratio:16/11;max-height:none;min-height:270px}.boot-layer{font-size:clamp(8px,2.75vw,12px);line-height:1.31;padding:4%}.retro-status{height:31px;font-size:9px}.retro-btn{font-size:9px;padding:5px 7px}.retro-caption{grid-template-columns:1fr;gap:6px;padding:0 5px}.crt-overlay{background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0,rgba(0,0,0,.18) 1px,transparent 1px,transparent 2px),radial-gradient(ellipse at center,transparent 54%,rgba(0,0,0,.42))}}
+    @media(prefers-reduced-motion:reduce){.crt-overlay:after,.boot-cursor{animation:none}.crt-overlay:after{display:none}}
+
+    /* CSP-safe CSS demoscene: runs even when inline JavaScript is blocked by a mobile preview */
+    .css-demo{position:absolute;inset:0;z-index:2;overflow:hidden;background:#000;opacity:0;animation:cssDemoIn .35s 7.4s steps(1,end) forwards;font-family:"Courier New",monospace}
+    @keyframes cssDemoIn{to{opacity:1}}
+    .boot-layer{animation:cssBootOut .35s 7.25s steps(1,end) forwards}
+    @keyframes cssBootOut{to{opacity:0;visibility:hidden}}
+    .css-bars{position:absolute;inset:0;background:repeating-linear-gradient(0deg,#000 0 4px,#0aa 4px 8px,#f0a 8px 12px,#fff 12px 16px);animation:barShift 2.5s steps(16) infinite,sceneCycle 12s steps(1) infinite;opacity:.7}
+    @keyframes barShift{to{background-position:0 64px}}@keyframes sceneCycle{0%,24%{filter:none;transform:skewY(0)}25%,49%{filter:hue-rotate(90deg);transform:skewY(-4deg) scale(1.05)}50%,74%{filter:contrast(1.7);transform:skewY(5deg) scale(1.1)}75%,100%{filter:invert(.05);transform:none}}
+    .css-grid{position:absolute;left:-20%;right:-20%;bottom:-45%;height:95%;background:linear-gradient(90deg,transparent 49.4%,#0ff 49.6% 50.4%,transparent 50.6%),linear-gradient(0deg,transparent 49.2%,#f0f 49.5% 50.5%,transparent 50.8%);background-size:34px 100%,100% 18px;transform:perspective(190px) rotateX(62deg);transform-origin:center top;animation:gridMove 1.2s linear infinite;box-shadow:0 -2px #fff}@keyframes gridMove{to{background-position:0 0,0 36px}}
+    .css-sun{position:absolute;width:105px;height:105px;left:50%;top:45%;translate:-50% -50%;border-radius:50%;background:repeating-linear-gradient(0deg,#f0f 0 6px,#fff 6px 9px,#0aa 9px 13px);box-shadow:0 0 28px #f0f;animation:sunPulse 2.2s steps(5) infinite}@keyframes sunPulse{50%{scale:1.14;filter:hue-rotate(90deg)}}
+    .css-cube{position:absolute;left:50%;top:49%;width:82px;height:82px;margin:-41px;border:4px solid #fff;box-shadow:inset 0 0 0 4px #0aa,0 0 0 4px #f0f;animation:cubeHack 4s steps(16) infinite;mix-blend-mode:screen}@keyframes cubeHack{to{transform:rotate(360deg) skew(25deg,12deg) scale(.72)}}
+    .css-logo{position:absolute;z-index:3;left:0;right:0;top:12%;text-align:center;color:#fff;font-weight:900;font-size:clamp(18px,5vw,36px);letter-spacing:-.08em;text-shadow:3px 0 #0ff,-3px 0 #f0f;animation:logoJitter .28s steps(2) infinite}.css-logo small{display:block;margin-top:4px;color:#0ff;font-size:.32em;letter-spacing:.28em;text-shadow:none}@keyframes logoJitter{50%{transform:translate(2px,-1px)}}
+    .css-mode{position:absolute;z-index:3;top:7px;left:8px;color:#0ff;font-size:9px}.css-mem{position:absolute;z-index:3;top:7px;right:8px;color:#f0f;font-size:9px}
+    .css-scroll-mask{position:absolute;z-index:4;left:0;right:0;bottom:8px;height:27px;overflow:hidden;background:#000;border-top:2px solid #0ff;border-bottom:2px solid #f0f;white-space:nowrap}.css-scroller{display:inline-block;padding-left:100%;color:#fff;font-weight:900;font-size:14px;line-height:23px;text-shadow:2px 0 #0ff,-2px 0 #f0f;animation:sceneScroll 15s linear infinite}@keyframes sceneScroll{to{transform:translateX(-100%)}}
+    .css-flash{position:absolute;inset:0;z-index:5;pointer-events:none;animation:flashHack 6s steps(1) infinite}@keyframes flashHack{0%,95%,100%{background:transparent}96%{background:#fff}97%{background:#0ff}98%{background:#f0f}}
+    @media(prefers-reduced-motion:reduce){.css-demo,.boot-layer{animation:none}.css-demo{opacity:0}.boot-layer{opacity:1;visibility:visible}}
+  </style>
+</head>
+<body>
+<div class="progress" id="progress"></div><div class="noise"></div><div class="ambient-grid"></div><nav class="chapter-dots" id="chapterDots" aria-label="Story chapters"></nav>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">A personal technology story</div>
+    <h1>Architecting systems <span class="gradient">since 1989.</span></h1>
+    <p class="lead">From a 2MHz IBM XT and teenage Linux servers to enterprise architecture, critical infrastructure and CTO advisory. I have always learned by building, stayed useful by taking responsibility, and kept moving by being honest about what I still have to learn.</p>
+    <div class="hero-meta"><span class="pill">37 years of technology</span><span class="pill">Operations to executive advisory</span><span class="pill">Melbourne, Australia</span></div>
+  </div>
+  <div class="scroll-cue">Scroll the story</div>
+</header>
+
+<main>
+<section class="retro-section" id="boot286"><div class="wrap">
+  <div class="section-head retro-intro reveal"><span class="kicker">Memory address 0xB800</span><h2>Before the cloud,<br>there was the prompt.</h2><p>A compact browser-built tribute to the machines, constraints and scene culture that made every byte matter. The sequence begins as a 286-class boot, then flips into a modern interpretation of extreme CGA techniques: composite-like colour, palette cycling, raster tricks, wireframe geometry and a sine scroller.</p></div>
+  <div class="retro-window reveal" role="region" aria-label="Interactive 286 boot and CGA demoscene animation">
+    <div class="retro-titlebar"><span class="retro-appicon"></span><span class="retro-title">C:\WALLACE\SCENE\ULTRASTR.EXE</span><span class="retro-controls"><i></i><i></i><i></i></span></div>
+    <div class="retro-menubar"><span><u>F</u>ile</span><span><u>V</u>iew</span><span><u>R</u>un</span><span><u>M</u>emory</span><span><u>H</u>elp</span></div>
+    <div class="retro-screen" id="retroScreen" tabindex="0">
+      <canvas id="cgaCanvas" width="320" height="200" aria-label="Animated CGA-style demo"></canvas><div class="css-demo" aria-hidden="true">
+        <div class="css-bars"></div><div class="css-sun"></div><div class="css-grid"></div><div class="css-cube"></div>
+        <div class="css-logo">ULTRASTRUCTURE<small>286 DIVISION · PROMPT TO PLATFORM</small></div>
+        <div class="css-mode">MODE 04H · 320×200</div><div class="css-mem">640K OK · B800:0000</div>
+        <div class="css-scroll-mask"><div class="css-scroller">*** GREETZ TO BUILDERS · OPERATORS · SYSADMINS · NETHEADS · PACKET PUSHERS · PIXEL WIZARDS · VM JOCKEYS · ARCHITECTS · SCENERS · BBS NIGHT OWLS · WALLACE + GROMIT ONLINE · FROM 2MHZ TO 24 CORES · KEEP BUILDING · KEEP LEARNING · NO CARRIER ***</div></div><div class="css-flash"></div>
+      </div>
+      <div class="boot-layer" id="bootText">286 BIOS · READY<br>C:\WALLACE\SCENE&gt;ULTRASTR.EXE<br><br>Initialising scene loader...<span class="boot-cursor"></span><br><br>CSS raster fallback armed.</div><div class="crt-overlay"></div><div class="retro-badge">CGA / 4 COLOURS*</div>
+    </div>
+    <div class="retro-status"><span id="demoStatus">286 BIOS · CSS/CANVAS dual-mode scene loader</span><div class="retro-actions"><button class="retro-btn" id="replayDemo" type="button">↻ REPLAY</button><button class="retro-btn" id="skipBoot" type="button">▶ DEMO</button></div></div>
+  </div>
+  <div class="retro-caption reveal"><b>ABOUT THE EFFECT</b><span>The canvas renders internally at 320 × 200 and scales with nearest-neighbour interpolation. No video, images, fonts or libraries are loaded, keeping the entire experience portable inside one HTML file.</span></div>
+</div></section>
+
+<section><div class="wrap"><div class="section-head reveal"><span class="kicker">The journey</span><h2>From curiosity to consequence.</h2><p>The roles changed, but the underlying pattern remained: understand the system, take responsibility, and make it work better.</p></div>
+<div class="story">
+  <article class="chapter reveal"><div class="node"></div><div class="card"><span class="years">1987—1999</span><h3>The Tinkerer</h3><p>Before technology was a career, it was simply what I did. The IBM XT opened the door, then came the 386 and 486 clones, web design and two Linux servers called Wallace and Gromit. I learned by pulling things apart, rebuilding them and trying again. At the same time I was working, leading the student council and discovering that responsibility matters as much as technical ability.</p><div class="highlights"><span class="tag">First job at 15</span><span class="tag">SRC President</span><span class="tag">Web design awards</span><span class="tag">Linux, BGP &amp; mail</span></div><div class="pivot">Technology and responsibility grew together.</div></div></article>
+  <article class="chapter reveal"><div class="node"></div><div class="card"><span class="years">2000—2003</span><h3>The Operator</h3><p>My first professional roles put the hobby under real pressure. SQL and Unix operations, logistics platforms and network administration taught me that production is different from a home lab. Someone is waiting for the system. Someone depends on the answer. I moved out at 17 and learned independence at roughly the same time I learned operational discipline.</p><div class="highlights"><span class="tag">Web development</span><span class="tag">SQL / Unix operations</span><span class="tag">Network administration</span><span class="tag">Independent at 17</span></div></div></article>
+  <article class="chapter reveal"><div class="node"></div><div class="card"><span class="years">2004—2013</span><h3>The Engineer</h3><p>I moved from keeping systems running to designing and delivering them. Networking, security, datacentres and virtualisation took me through telecommunications, banking, transport and government. I liked the difficult work: the migrations, the handovers, the environments where resilience and operability could not be an afterthought.</p><div class="highlights"><span class="tag">Dimension Data</span><span class="tag">Telstra</span><span class="tag">ANZ</span><span class="tag">Australia Post</span><span class="tag">SecureWorx</span></div><div class="pivot">2005: built the first VMware ESX environment, a defining shift toward platform architecture.</div></div></article>
+  <article class="chapter reveal"><div class="node"></div><div class="card"><span class="years">2014—2019</span><h3>The Architect</h3><p>By 2014, the questions had changed. It was no longer only how to build the platform, but what should be built, why it mattered and what risk the organisation was prepared to carry. I began translating between engineers, executives, risk teams and vendors, producing designs that could survive both technical scrutiny and operational reality.</p><div class="highlights"><span class="tag">Infrastructure Architect, 2014</span><span class="tag">Enterprise Architect, 2016</span><span class="tag">Payments Architect, 2019</span></div></div></article>
+  <article class="chapter reveal"><div class="node"></div><div class="card"><span class="years">2020—2026</span><h3>The Advisor</h3><p>The work widened again: payments, cloud operating models, security, compliance, commercial decisions and executive advice. I still care about the low-level detail, but the job is increasingly to turn complexity into a direction people can act on. The best outcome is not the cleverest diagram. It is a decision that can be understood, delivered and supported.</p><div class="highlights"><span class="tag">ANZ</span><span class="tag">Viva Energy</span><span class="tag">Courts Victoria</span><span class="tag">NTT DATA</span><span class="tag">EOS Australia</span><span class="tag">Broadcom</span><span class="tag">Powercor</span></div><div class="pivot">2026: CTO consulting and principal advisory, connecting technical depth with enterprise consequence.</div></div></article>
+</div></div></section>
+
+<section id="hardware"><div class="wrap"><div class="section-head reveal"><span class="kicker">The hardware thread</span><h2>More capability. Same curiosity.</h2><p>A condensed, interactive view of the machines that mark each era. Tap a year to travel from the first desktop to a modern 24-core lab platform.</p></div>
+<div class="hardware-shell reveal">
+  <div class="hardware-nav" id="hardwareNav" aria-label="Hardware timeline"></div><div class="swipe-note">Swipe the years or swipe the card</div>
+  <div class="hardware-stage" aria-live="polite">
+    <div class="machine" id="machineIcon"></div>
+    <div class="hw-copy"><small id="hwEra"></small><h3 id="hwTitle"></h3><p id="hwText"></p><div class="spec" id="hwSpec"></div><div class="hint">Swipe or tap the years above</div></div>
+  </div>
+</div></div></section>
+
+<section class="voice-section"><div class="wrap"><div class="section-head reveal"><span class="kicker">In my own voice</span><h2>Direct, practical and still curious.</h2><p>The formal titles only tell part of the story. The human thread is a preference for plain language, useful detail and honest progress.</p></div><div class="voice-grid">
+<article class="voice-card reveal"><span class="voice-icon">01</span><h3>Useful over impressive</h3><p>I have spent years turning complicated environments into something people can understand and operate. Workshops, HLDs, LLDs, bills of material, migration runbooks and test plans are not paperwork to me. They are how a good idea becomes a safe, repeatable outcome.</p></article>
+<article class="voice-card reveal"><span class="voice-icon">02</span><h3>Prepared to be candid</h3><p>I am comfortable saying what I know, what I do not know and what needs to happen next. That includes acknowledging when I am running behind or when an exam result was two questions short. The important part is taking ownership, rebooking and continuing.</p></article>
+<article class="voice-card reveal"><span class="voice-icon">03</span><h3>Generous with experience</h3><p>I enjoy helping other people present their best work. Sometimes that means architecture advice. Sometimes it is practical detail: stage-manage the room, put the camera at eye level, proofread the CV and build a narrative you can actually speak to.</p></article>
+<article class="voice-card reveal"><span class="voice-icon">04</span><h3>Technology with a human purpose</h3><p>The platforms have changed from Unix and physical networks to VCF, hybrid cloud and zero-trust patterns. The purpose has not: reduce friction, protect what matters and give people a dependable foundation for their work.</p></article>
+</div><div class="voice-quote reveal"><span>“</span><p>The best architecture is not simply correct. It is understood, trusted and ready to be used.</p></div></div></section>
+<section><div class="wrap"><div class="section-head reveal"><span class="kicker">Career progression</span><h2>The scope kept widening.</h2><p>Hands-on credibility became architecture judgment, then enterprise influence.</p></div>
+<div class="ladder reveal"><div class="step"><span>1997—2003</span><b>Entry &amp; Support</b></div><div class="step"><span>2004—2013</span><b>Engineering &amp; Consulting</b></div><div class="step"><span>2014</span><b>Infrastructure Architect</b></div><div class="step"><span>2016—2019</span><b>Enterprise &amp; Payments Architect</b></div><div class="step"><span>2020—2026</span><b>Principal Architect &amp; CTO Advisor</b></div></div></div></section>
+
+<section><div class="wrap"><div class="section-head reveal"><span class="kicker">What the work has taught me</span><h2>Stay practical. Keep learning.</h2><p>The recurring themes are less about technology brands and more about how I approach the work and the people around it.</p></div><div class="lessons">
+<div class="lesson reveal"><strong>Build before you lead.</strong><p>I trust architecture more when it has been tested against implementation, operations and the people who must support it.</p></div>
+<div class="lesson reveal"><strong>Simplicity scales.</strong><p>Complexity arrives by itself. My contribution is to make the decision, the trade-off and the next step clear.</p></div>
+<div class="lesson reveal"><strong>Technology is about people.</strong><p>I have learned that a useful answer, explained plainly and offered with respect, travels further than technical correctness alone.</p></div>
+<div class="lesson reveal"><strong>Progress beats perfection.</strong><p>I care about quality, but experience has taught me to share work earlier, learn from feedback and avoid polishing the wrong answer.</p></div>
+</div></div></section>
+
+<section class="closing"><div class="wrap reveal"><blockquote>Understand systems.<br><span class="gradient">Solve problems.</span><br>Move organisations forward.</blockquote><p>The tools changed. Curiosity, responsibility and the desire to make things work stayed the same.</p></div></section>
+</main>
+<footer class="wrap"><span>Sam Thomas · Career &amp; Technology Timeline</span><span>Single-file mobile prototype · 2026</span></footer>
+<script>
+const icon=`<svg viewBox="0 0 120 120" fill="none" aria-hidden="true"><rect x="20" y="18" width="80" height="58" rx="8" stroke="#31ddff" stroke-width="4"/><rect x="30" y="28" width="60" height="38" rx="3" fill="#31ddff" opacity=".13"/><path d="M48 88h24M60 76v12M32 98h56" stroke="#f4f8ff" stroke-width="4" stroke-linecap="round"/><path d="m39 43 8 7-8 7M54 57h17" stroke="#aa76ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const hardware=[
+ {year:'1989',era:'The beginning',title:'IBM XT',text:'The machine that made computing tangible and started a lifelong habit of learning by taking systems apart and putting them back together.',spec:'2MHz CPU · 1MB RAM'},
+ {year:'1993',era:'The builder era',title:'386 / 486 Clones',text:'Custom-built PCs made hardware modular. Upgrades became experiments, and experiments became confidence.',spec:'Clone 386 → Clone 486SX'},
+ {year:'1998',era:'The home network',title:'Wallace & Gromit',text:'Teenage Linux servers that moved beyond the desktop into identity, file services, mail, routing and security.',spec:'NIS · SMB · Postfix · Sendmail · BGP · IPtables'},
+ {year:'2005',era:'The mobile engineer',title:'ThinkPad Years',text:'Durable laptops travelled through delivery roles while enterprise virtualisation became a defining professional capability.',spec:'X22 · X23 · X30 · X40 · T42 · T43'},
+ {year:'2006',era:'The server platform',title:'SUN Opteron NetHost',text:'A long-running AMD Opteron platform that reflected the shift from individual machines to persistent services and infrastructure.',spec:'Active 2006—2010'},
+ {year:'2010',era:'Maximum desktop',title:'Alienware i7',text:'A high-performance workstation from the era when local compute, gaming-class graphics and raw experimentation converged.',spec:'Intel i7 · dual 2GB GTX580 SLI'},
+ {year:'2014',era:'The homelab',title:'HP N40L Cluster',text:'Four compact servers created a practical laboratory for virtualisation, storage, networking and architecture patterns.',spec:'4 × HP N40L Microservers · 2014—2020'},
+ {year:'2021',era:'The collaboration wall',title:'Surface Hub 2S',text:'Computing expanded from a personal tool into a collaborative canvas for architecture, workshops and visual decision-making.',spec:'2 × Surface Hub 2S 50-inch'},
+ {year:'2026',era:'The modern lab',title:'Minisforum MS-02',text:'A compact platform with datacentre-class capacity, bringing the story full circle: still building, still experimenting, at a radically different scale.',spec:'24 cores · 256GB RAM'}
+];
+const nav=document.getElementById('hardwareNav'), era=document.getElementById('hwEra'), title=document.getElementById('hwTitle'), text=document.getElementById('hwText'), spec=document.getElementById('hwSpec'), iconBox=document.getElementById('machineIcon'); iconBox.innerHTML=icon;
+function showHardware(i){const h=hardware[i];era.textContent=h.era;title.textContent=h.title;text.textContent=h.text;spec.textContent=h.spec;document.querySelectorAll('.hw-button').forEach((b,n)=>b.classList.toggle('active',n===i));const b=document.querySelectorAll('.hw-button')[i];b.setAttribute('aria-pressed','true');document.querySelectorAll('.hw-button').forEach((x,n)=>{if(n!==i)x.setAttribute('aria-pressed','false')});}
+hardware.forEach((h,i)=>{const b=document.createElement('button');b.className='hw-button';b.textContent=h.year;b.addEventListener('click',()=>showHardware(i));nav.appendChild(b)});showHardware(0);
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const progress=document.getElementById('progress');addEventListener('scroll',()=>{const d=document.documentElement;progress.style.width=((d.scrollTop/(d.scrollHeight-d.clientHeight))*100)+'%'},{passive:true});
+
+// Enhanced V2 interactions
+const hwStage=document.querySelector('.hardware-stage'), hwCopy=document.querySelector('.hw-copy'), hwShell=document.querySelector('.hardware-shell');
+let currentHardware=0, touchStartX=0;
+const originalShowHardware=showHardware;
+showHardware=function(i){currentHardware=(i+hardware.length)%hardware.length;originalShowHardware(currentHardware);hwCopy.classList.remove('swap');void hwCopy.offsetWidth;hwCopy.classList.add('swap');document.querySelectorAll('.hw-button')[currentHardware].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});};
+hwStage.addEventListener('touchstart',e=>touchStartX=e.changedTouches[0].clientX,{passive:true});
+hwStage.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchStartX;if(Math.abs(dx)>45)showHardware(currentHardware+(dx<0?1:-1));},{passive:true});
+hwShell.addEventListener('pointermove',e=>{const r=hwShell.getBoundingClientRect();hwShell.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');hwShell.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')});
+
+const chapters=[...document.querySelectorAll('.chapter'),document.querySelector('#hardware'),...document.querySelectorAll('main section')].filter((x,i,a)=>x&&a.indexOf(x)===i);
+const dotNav=document.getElementById('chapterDots');
+chapters.slice(0,7).forEach((ch,i)=>{const b=document.createElement('button');b.className='chapter-dot';b.setAttribute('aria-label','Go to story section '+(i+1));b.addEventListener('click',()=>ch.scrollIntoView({behavior:'smooth',block:'center'}));dotNav.appendChild(b)});
+const dots=[...document.querySelectorAll('.chapter-dot')];
+const sectionObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){const i=chapters.indexOf(entry.target);dots.forEach((d,n)=>d.classList.toggle('active',n===i));}}),{rootMargin:'-42% 0px -42% 0px',threshold:0});chapters.slice(0,7).forEach(x=>sectionObserver.observe(x));
+
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){document.querySelectorAll('.chapter .card').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(900px) rotateX(${-y*3}deg) rotateY(${x*3}deg) translateY(-3px)`});card.addEventListener('pointerleave',()=>card.style.transform='')})}
+
+// 286 boot sequence and CGA-inspired demoscene
+(()=>{
+ const canvas=document.getElementById('cgaCanvas'),ctx=canvas.getContext('2d',{alpha:false}),boot=document.getElementById('bootText'),status=document.getElementById('demoStatus'),screen=document.getElementById('retroScreen');
+ if(!canvas)return;
+ const W=320,H=200,C=['#000000','#55ffff','#ff55ff','#ffffff'], ALT=['#000000','#55ff55','#ff5555','#ffff55'];
+ ctx.imageSmoothingEnabled=false; let raf=0,start=0,running=false,bootTimers=[],visible=false;
+ const lines=[
+ 'Phoenix 80286 ROM BIOS PLUS Version 3.10  01',
+ 'Copyright (C) 1985-1990 Phoenix Technologies Ltd.',
+ '',
+ '640K Base Memory',
+ '384K Extended Memory',
+ 'Video adapter: IBM CGA compatible at 0xB800',
+ 'Keyboard controller........... OK',
+ 'Fixed disk 0: 42MB............ OK',
+ '',
+ 'Starting MS-DOS...',
+ '',
+ 'HIMEM.SYS: XMS driver installed.',
+ 'C:\\>SET BLASTER=A220 I5 D1 T3',
+ 'C:\\>CD \\WALLACE\\SCENE',
+ 'C:\\WALLACE\\SCENE>ULTRASTR.EXE /CGA /NOSOUND',
+ '',
+ 'ULTRASTRUCTURE 286 DIVISION · PRESENTS',
+ '"FROM PROMPT TO PLATFORM"',
+ 'Loading 16K intro...'
+ ];
+ function clearTimers(){bootTimers.forEach(clearTimeout);bootTimers=[];cancelAnimationFrame(raf)}
+ function bootRun(){clearTimers();running=false;boot.classList.remove('hidden');boot.textContent='';status.textContent='286 BIOS · POST in progress';let i=0;function next(){if(i<lines.length){boot.textContent+=lines[i++]+'\n';boot.innerHTML=boot.textContent.replace(/\n/g,'<br>')+'<span class="boot-cursor"></span>';boot.scrollTop=boot.scrollHeight;bootTimers.push(setTimeout(next,i<3?180:85));}else bootTimers.push(setTimeout(beginDemo,650))}next()}
+ function beginDemo(){boot.classList.add('hidden');running=true;start=performance.now();status.textContent='ULTRASTR.EXE · 320×200 · 4 colours · 60Hz illusion';raf=requestAnimationFrame(draw)}
+ function text(t,x,y,size=8,col=C[3],align='left'){ctx.fillStyle=col;ctx.font=`bold ${size}px monospace`;ctx.textAlign=align;ctx.textBaseline='top';ctx.fillText(t,x,y)}
+ function stars(t){ctx.fillStyle=C[0];ctx.fillRect(0,0,W,H);for(let i=0;i<72;i++){let z=((t*.03+i*13)%100)+1,x=((i*53%101)-50)/z*150+160,y=((i*29%83)-41)/z*130+100,s=Math.max(1,4-z*.035)|0;ctx.fillStyle=C[(i%3)+1];ctx.fillRect(x|0,y|0,s,s)}}
+ function raster(t){for(let y=0;y<H;y+=2){const wave=Math.sin(y*.12+t*.003)+Math.sin(y*.037-t*.002);ctx.fillStyle=C[((wave+2)*.74|0)%3+1];ctx.fillRect(0,y,W,2)}for(let y=0;y<H;y+=4){ctx.fillStyle='rgba(0,0,0,.35)';ctx.fillRect(0,y,W,1)}}
+ function checker(t){ctx.fillStyle=C[0];ctx.fillRect(0,0,W,H);const horizon=68;for(let y=horizon;y<H;y+=4){let p=(y-horizon)/(H-horizon),sz=2+p*18,off=(t*.025*p)%sz;for(let x=-20;x<W+20;x+=sz){ctx.fillStyle=(((x/sz|0)+(y/4|0))&1)?C[1]:C[2];ctx.fillRect((x+off)|0,y,Math.ceil(sz),4)}}ctx.fillStyle=C[1];for(let i=0;i<8;i++)ctx.fillRect(0,horizon+i*7,W,1)}
+ function cube(t){const a=t*.001,pts=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]],edges=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]],pp=pts.map(([x,y,z])=>{let x1=x*Math.cos(a)-z*Math.sin(a),z1=x*Math.sin(a)+z*Math.cos(a),y1=y*Math.cos(a*.7)-z1*Math.sin(a*.7),z2=y*Math.sin(a*.7)+z1*Math.cos(a*.7),q=58/(z2+3.4);return[160+x1*q,95+y1*q]});ctx.lineWidth=2;edges.forEach((e,i)=>{ctx.strokeStyle=C[(i+t/180|0)%3+1];ctx.beginPath();ctx.moveTo(...pp[e[0]]);ctx.lineTo(...pp[e[1]]);ctx.stroke()})}
+ const scroll='  GREETZ TO THE BUILDERS · OPERATORS · SYSADMINS · NETHEADS · PACKET PUSHERS · PIXEL WIZARDS · VM JOCKEYS · ARCHITECTS · SCENERS · BBS NIGHT OWLS · WALLACE + GROMIT ONLINE · FROM 2MHz TO 24 CORES · KEEP BUILDING · KEEP LEARNING · NO CARRIER  ';
+ function scroller(t){ctx.fillStyle=C[0];ctx.fillRect(0,168,W,32);let x=W-(t*.045%(scroll.length*8+W));for(let i=0;i<scroll.length;i++){let xx=x+i*8,yy=179+Math.sin((xx+t*.03)*.055)*7;text(scroll[i],xx,yy,8,C[(i+(t/220|0))%3+1])}}
+ function logo(t){for(let k=3;k>=0;k--){text('ULTRASTRUCTURE',160+k,20+k,22,k?C[k%3+1]:C[3],'center')}text('FROM PROMPT TO PLATFORM',160,48,9,C[1],'center');text('286 DIVISION · 16K MINDSET',160,60,7,C[2],'center')}
+ function draw(now){if(!running)return;const t=now-start,phase=(t/4200|0)%4;ctx.globalAlpha=1;if(phase===0){stars(t);logo(t);cube(t)}else if(phase===1){raster(t);ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(25,28,270,82);logo(t);cube(t)}else if(phase===2){checker(t);logo(t);cube(t)}else{stars(t);for(let i=0;i<10;i++){ctx.strokeStyle=C[i%3+1];ctx.strokeRect(40+i*7+(Math.sin(t*.002+i)*6|0),30+i*5,240-i*14,115-i*10)}logo(t)}scroller(t);if((t/800|0)%2===0){text('MODE 04h',5,5,7,C[1]);text('640K OK',315,5,7,C[2],'right')}raf=requestAnimationFrame(draw)}
+ document.getElementById('replayDemo').addEventListener('click',bootRun);document.getElementById('skipBoot').addEventListener('click',beginDemo);screen.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();running?bootRun():beginDemo()}});
+ const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ // Start eagerly. On short mobile viewports a 4:3 canvas can never reach a 30% intersection ratio,
+ // which previously left Firefox Mobile showing an untouched black canvas.
+ if(reduced){
+   boot.innerHTML='286 BIOS · 640K OK<br>C:\\WALLACE\\SCENE>ULTRASTR.EXE<br><br>Press DEMO to run animation.<span class="boot-cursor"></span>';
+   status.textContent='Reduced motion · demo ready';
+ }else{
+   setTimeout(bootRun,120);
+ }
+ // Visibility is now used only to save battery after initialisation, never to gate startup.
+ const obs=new IntersectionObserver(es=>es.forEach(e=>{
+   visible=e.isIntersecting;
+   if(!visible&&running){cancelAnimationFrame(raf);running=false}
+   else if(visible&&boot.classList.contains('hidden')&&!running){running=true;start=performance.now();raf=requestAnimationFrame(draw)}
+ }),{rootMargin:'120px 0px',threshold:0});
+ obs.observe(screen);
+})();
+</script>
+</body></html>
